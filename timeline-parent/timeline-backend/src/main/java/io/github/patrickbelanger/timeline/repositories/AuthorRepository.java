@@ -15,16 +15,17 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package io.github.patrickbelanger.timeline;
+package io.github.patrickbelanger.timeline.repositories;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import io.github.patrickbelanger.timeline.entities.AuthorEntity;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
 
-@SpringBootTest
-class TimelineApplicationTests {
+import java.util.Optional;
 
-	@Test
-	void contextLoads() {
-	}
-
+@Repository
+public interface AuthorRepository extends PagingAndSortingRepository<AuthorEntity, Long> {
+    Optional<AuthorEntity> findByUuid(String uuid);
+    AuthorEntity save(AuthorEntity author);
+    int deleteByUuid(String uuid);
 }

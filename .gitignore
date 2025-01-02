@@ -31,3 +31,11 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Docker and Spring Boot###
+.env
+docker-compose-local.yml
+application-local.properties
+
+### Vite ###
+.vite
