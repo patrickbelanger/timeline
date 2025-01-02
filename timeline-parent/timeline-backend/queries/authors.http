@@ -1,0 +1,20 @@
+### GET all authors
+GET {{host}}:{{port}}/api/v1/authors
+Accept: application/json
+
+### GET specific author
+GET {{host}}:{{port}}/api/v1/authors/d0deaac3-6ef8-43c2-b53b-45480a406f26
+Accept: application/json
+
+### POST create first author
+POST {{host}}:{{port}}/api/v1/authors
+Content-Type: application/json
+
+{
+  "firstName" :  "Patrick",
+  "lastName" : "Belanger",
+  "pseudonym" : "Test",
+  "email" : "first@test.com",
+  "bio" : "",
+  "picture": ""
+}
