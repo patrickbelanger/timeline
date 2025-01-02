@@ -32,22 +32,22 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
-public class AuthorsService {
+public class AuthorService {
 
     private final AuthorRepository authorRepository;
     private final ModelMapper modelMapper;
 
-    public AuthorsService(AuthorRepository authorRepository, ModelMapper modelMapper) {
+    public AuthorService(AuthorRepository authorRepository, ModelMapper modelMapper) {
         this.authorRepository = authorRepository;
         this.modelMapper = modelMapper;
     }
 
     public Page<AuthorDTO> getAuthors(Pageable pageable) {
         Page<AuthorEntity> authors = authorRepository.findAll(pageable);
-        List<AuthorDTO> authorDTO = authors.getContent().stream()
+        List<AuthorDTO> authorsDTO = authors.getContent().stream()
                 .map(author -> modelMapper.map(author, AuthorDTO.class))
                 .toList();
-        return new PageImpl<>(authorDTO, pageable, authors.getTotalElements());
+        return new PageImpl<>(authorsDTO, pageable, authors.getTotalElements());
     }
 
     public AuthorDTO getAuthorByUuid(String uuid) {

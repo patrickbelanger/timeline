@@ -19,8 +19,6 @@ package io.github.patrickbelanger.timeline.entities;
 
 import jakarta.persistence.*;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "authors")
 public class AuthorEntity {
@@ -28,7 +26,9 @@ public class AuthorEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String uuid;
+    @Column(nullable = false)
     private String firstName;
+    @Column(nullable = false)
     private String lastName;
     private String pseudonym;
     @Column(unique = true, nullable = false)

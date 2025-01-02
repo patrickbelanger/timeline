@@ -18,7 +18,7 @@
 package io.github.patrickbelanger.timeline.controllers;
 
 import io.github.patrickbelanger.timeline.dtos.AuthorDTO;
-import io.github.patrickbelanger.timeline.services.AuthorsService;
+import io.github.patrickbelanger.timeline.services.AuthorService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -27,26 +27,26 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/authors")
-public class AuthorsController {
+public class AuthorController {
 
-    private final AuthorsService authorsService;
+    private final AuthorService authorService;
 
-    public AuthorsController(AuthorsService authorsService) {
-        this.authorsService = authorsService;
+    public AuthorController(AuthorService authorsService) {
+        this.authorService = authorsService;
     }
 
     @GetMapping
     public ResponseEntity<Page<AuthorDTO>> getAuthors(Pageable pageable) {
-        return new ResponseEntity<>(authorsService.getAuthors(pageable), HttpStatus.OK);
+        return new ResponseEntity<>(authorService.getAuthors(pageable), HttpStatus.OK);
     }
 
     @GetMapping("/{uuid}")
     public ResponseEntity<AuthorDTO> getAuthorById(@PathVariable String uuid) {
-        return new ResponseEntity<>(this.authorsService.getAuthorByUuid(uuid), HttpStatus.OK);
+        return new ResponseEntity<>(this.authorService.getAuthorByUuid(uuid), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<AuthorDTO> createAuthor(@RequestBody AuthorDTO authorDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.authorsService.createAuthor(authorDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.authorService.createAuthor(authorDTO));
     }
 }

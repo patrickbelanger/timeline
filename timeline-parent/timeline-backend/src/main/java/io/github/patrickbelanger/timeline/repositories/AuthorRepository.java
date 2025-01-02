@@ -27,4 +27,5 @@ import java.util.Optional;
 public interface AuthorRepository extends PagingAndSortingRepository<AuthorEntity, Long> {
     Optional<AuthorEntity> findByUuid(String uuid);
     AuthorEntity save(AuthorEntity author);
+    int deleteByUuid(String uuid);
 }
