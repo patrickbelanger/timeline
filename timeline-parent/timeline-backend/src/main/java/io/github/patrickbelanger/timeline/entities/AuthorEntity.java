@@ -36,7 +36,7 @@ public class AuthorEntity {
     private String bio;
     private String picture;
 
-    protected AuthorEntity() {}
+    public AuthorEntity() {}
 
     public Long getId() {
         return id;

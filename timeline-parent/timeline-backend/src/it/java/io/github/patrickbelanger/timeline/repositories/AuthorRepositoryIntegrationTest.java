@@ -35,7 +35,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @Import(ModelMapperConfig.class)
-public class AuthorRepositoryTest {
+public class AuthorRepositoryIntegrationTest {
 
     @Autowired
     private AuthorRepository sut;

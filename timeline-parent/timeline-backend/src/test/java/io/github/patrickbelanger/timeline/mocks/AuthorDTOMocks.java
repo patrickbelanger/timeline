@@ -31,24 +31,26 @@ import java.util.UUID;
 public class AuthorDTOMocks {
     public static AuthorDTO getMock() {
         return new AuthorDTOBuilder()
-         .setUuid(UUID.randomUUID().toString())
-                .setFirstName("Marc")
-                .setLastName("Thomas")
-                .setPseudonym("Marcus Divine")
-                .setEmail("marc-thomas@test.com")
-                .setBio("Screenwriter - Bachelor at Concordia - Won the FFM twice")
-                .build();
+            .setUuid(UUID.randomUUID().toString())
+            .setFirstName("Marc")
+            .setLastName("Thomas")
+            .setPseudonym("Marcus Divine")
+            .setEmail("marc-thomas@test.com")
+            .setBio("Screenwriter - Bachelor at Concordia - Won the FFM twice")
+            .setPicture("path/to/marc-thomas-picture.png")
+            .build();
     }
 
     public static AuthorDTO getAltMock() {
         return new AuthorDTOBuilder()
-                .setUuid(UUID.randomUUID().toString())
-                .setFirstName("Emilie")
-                .setLastName("Jobin")
-                .setPseudonym("Emilie Jolie")
-                .setEmail("emilie-jobin@test.com")
-                .setBio("Author - Bachelor at UQAM - Interactive Platform")
-                .build();
+            .setUuid(UUID.randomUUID().toString())
+            .setFirstName("Emilie")
+            .setLastName("Jobin")
+            .setPseudonym("Emilie Jolie")
+            .setEmail("emilie-jobin@test.com")
+            .setBio("Author - Bachelor at UQAM - CEO Interactive Platform")
+            .setPicture("path/to/emilie-jobin-picture.png")
+            .build();
     }
 
     public static Page<AuthorDTO> getMocks() {

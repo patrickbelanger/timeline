@@ -72,9 +72,10 @@ public class AuthorControllerUnitTest {
 
     @Test
     void createAuthor_shouldCreateAuthor() throws Exception {
+        /* Arrange */
         when(authorService.createAuthor(any())).thenReturn(AuthorDTOMocks.getMock());
 
-        // Perform POST request
+        /* Act & Assert */
         mockMvc.perform(post("/api/v1/authors")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
