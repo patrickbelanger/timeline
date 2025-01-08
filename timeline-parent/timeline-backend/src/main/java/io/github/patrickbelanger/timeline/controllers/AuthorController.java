@@ -31,8 +31,8 @@ public class AuthorController {
 
     private final AuthorService authorService;
 
-    public AuthorController(AuthorService authorsService) {
-        this.authorService = authorsService;
+    public AuthorController(AuthorService authorService) {
+        this.authorService = authorService;
     }
 
     @GetMapping
