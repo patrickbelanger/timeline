@@ -1,0 +1,18 @@
+### POST create user
+POST {{host}}:{{port}}/api/v1/authenticate/register
+Content-Type: application/json
+
+{
+  "username" : "first@test.com",
+  "password" : "Test$12345",
+  "role": "USER"
+}
+
+### POST login user
+POST {{host}}:{{port}}/api/v1/authenticate/login
+Content-Type: application/json
+
+{
+  "username" : "first@test.com",
+  "password" : "Test$12345"
+}

@@ -15,26 +15,16 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package io.github.patrickbelanger.timeline.configurations;
+package io.github.patrickbelanger.timeline.repositories;
 
-import io.github.patrickbelanger.timeline.dtos.UserDTO;
 import io.github.patrickbelanger.timeline.entities.UserEntity;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-@Configuration
-public class ModelMapperConfig {
-    @Bean
-    public ModelMapper modelMapper() {
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.addMappings(new PropertyMap<UserEntity, UserDTO>() {
-            @Override
-            protected void configure() {
-                skip(destination.getPassword());
-            }
-        });
-        return modelMapper;
-    }
+import java.util.Optional;
+
+@Repository
+public interface UsersRepository extends JpaRepository<UserEntity, Long> {
+    Optional<UserEntity> findByUsername(String username);
+    UserEntity save(UserEntity user);
 }

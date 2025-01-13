@@ -17,24 +17,22 @@
 
 package io.github.patrickbelanger.timeline.configurations;
 
-import io.github.patrickbelanger.timeline.dtos.UserDTO;
-import io.github.patrickbelanger.timeline.entities.UserEntity;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class ModelMapperConfig {
+public class CorsConfig {
+
     @Bean
-    public ModelMapper modelMapper() {
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.addMappings(new PropertyMap<UserEntity, UserDTO>() {
-            @Override
-            protected void configure() {
-                skip(destination.getPassword());
+    public WebMvcConfigurer webMvcConfigurerConfigurer() {
+        return new WebMvcConfigurer() {
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowedOrigins("http://localhost:8081");
             }
-        });
-        return modelMapper;
+        };
     }
 }

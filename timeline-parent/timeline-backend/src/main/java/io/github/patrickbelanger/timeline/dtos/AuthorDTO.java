@@ -30,22 +30,6 @@ public class AuthorDTO {
 
     public AuthorDTO() { }
 
-    public AuthorDTO(String uuid,
-                     String firstName,
-                     String lastName,
-                     String pseudonym,
-                     String email,
-                     String bio,
-                     String picture) {
-        this.uuid = uuid;
-        this.firstName = Objects.requireNonNull(firstName, "First name must not be null");
-        this.lastName = Objects.requireNonNull(lastName, "Last name must not be null");
-        this.email = Objects.requireNonNull(email, "Email must not be null");
-        this.pseudonym = pseudonym;
-        this.bio = bio;
-        this.picture = picture;
-    }
-
     public String getUuid() {
         return uuid;
     }
