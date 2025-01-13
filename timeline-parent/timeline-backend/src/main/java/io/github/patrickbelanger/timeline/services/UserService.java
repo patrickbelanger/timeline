@@ -18,7 +18,6 @@
 package io.github.patrickbelanger.timeline.services;
 
 import io.github.patrickbelanger.timeline.repositories.UsersRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,12 +27,9 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserDetailsService {
 
     private final UsersRepository usersRepository;
-    private final ModelMapper modelMapper;
 
-    public UserService(UsersRepository usersRepository, ModelMapper modelMapper) {
+    public UserService(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
-        this.modelMapper = modelMapper;
-
     }
 
     @Override
