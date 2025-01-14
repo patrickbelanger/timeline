@@ -17,12 +17,23 @@
 
 package io.github.patrickbelanger.timeline.controllers;
 
+import io.github.patrickbelanger.timeline.configurations.SecurityConfig;
+import io.github.patrickbelanger.timeline.filters.JWTFilter;
 import io.github.patrickbelanger.timeline.mocks.AuthorDTOMocks;
 import io.github.patrickbelanger.timeline.services.AuthorService;
+import io.github.patrickbelanger.timeline.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -36,6 +47,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuthorController.class)
+@Import(SecurityConfig.class)
 public class AuthorControllerUnitTest {
 
     @Autowired
@@ -44,13 +56,20 @@ public class AuthorControllerUnitTest {
     @MockitoBean
     private AuthorService authorService;
 
+    @MockitoBean
+    private UserService userService;
+
+    @MockitoBean
+    private JWTFilter jwtFilter;
+
     @Test
     void getAuthors_shouldGetPageAuthors() throws Exception {
         /* Arrange */
         when(authorService.getAuthors(any())).thenReturn(AuthorDTOMocks.getMocks());
         /* Act & Assert */
         mockMvc.perform(get("/api/v1/authors")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.user("testUser").roles("USER")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].firstName").value("Marc"))
                 .andExpect(jsonPath("$.content[0].email").value("marc-thomas@test.com"))

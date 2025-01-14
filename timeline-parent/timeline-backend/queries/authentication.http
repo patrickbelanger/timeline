@@ -16,3 +16,5 @@ Content-Type: application/json
   "username" : "first@test.com",
   "password" : "Test$12345"
 }
+
+> {% client.global.set("authToken", response.body.token); %}
