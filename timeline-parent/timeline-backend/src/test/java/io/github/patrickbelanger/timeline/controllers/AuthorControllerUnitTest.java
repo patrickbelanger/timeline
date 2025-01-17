@@ -17,7 +17,6 @@
 
 package io.github.patrickbelanger.timeline.controllers;
 
-import io.github.patrickbelanger.timeline.configurations.SecurityConfig;
 import io.github.patrickbelanger.timeline.filters.JWTFilter;
 import io.github.patrickbelanger.timeline.mocks.AuthorDTOMocks;
 import io.github.patrickbelanger.timeline.services.AuthorService;
@@ -26,16 +25,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -80,7 +71,6 @@ public class AuthorControllerUnitTest {
     }
 
     @Test
-    @WithMockUser(authorities = "USER")
     void getAuthorByUuid_shouldGetAuthor() throws Exception {
         /* Arrange */
         when(authorService.getAuthorByUuid(any())).thenReturn(AuthorDTOMocks.getMock());
@@ -93,7 +83,6 @@ public class AuthorControllerUnitTest {
     }
 
     @Test
-    @WithMockUser(authorities = "USER")
     void createAuthor_shouldCreateAuthor() throws Exception {
         /* Arrange */
         when(authorService.createAuthor(any())).thenReturn(AuthorDTOMocks.getMock());
