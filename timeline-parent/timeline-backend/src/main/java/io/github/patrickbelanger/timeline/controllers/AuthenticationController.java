@@ -19,12 +19,11 @@ package io.github.patrickbelanger.timeline.controllers;
 
 import io.github.patrickbelanger.timeline.dtos.UserDTO;
 import io.github.patrickbelanger.timeline.services.UserManagementService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/authenticate")
@@ -36,9 +35,21 @@ public class AuthenticationController {
         this.userManagementService = userManagementService;
     }
 
+    @GetMapping
+    public ResponseEntity<Boolean> isAuthenticated(HttpServletRequest request) {
+        return new ResponseEntity<>(userManagementService.isAuthenticated(request), HttpStatus.OK);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<UserDTO> login(@RequestBody UserDTO userDTO) {
-        return new ResponseEntity<>(userManagementService.login(userDTO), HttpStatus.OK);
+        UserDTO currentUserDTO = userManagementService.login(userDTO);
+        return new ResponseEntity<>(currentUserDTO, currentUserDTO.getStatusCode());
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<UserDTO> logout(HttpServletRequest request, HttpServletResponse response) {
+        UserDTO currentUserDTO = userManagementService.logout(request, response);
+        return new ResponseEntity<>(currentUserDTO, currentUserDTO.getStatusCode());
     }
 
     @PostMapping("/register")

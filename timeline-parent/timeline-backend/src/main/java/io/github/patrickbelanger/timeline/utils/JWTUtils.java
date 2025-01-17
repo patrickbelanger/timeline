@@ -19,16 +19,16 @@ package io.github.patrickbelanger.timeline.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 import java.util.function.Function;
 
 @Component
@@ -38,7 +38,7 @@ public class JWTUtils {
     public static final long EXPIRATION_TIME = 86400000;
 
     public JWTUtils(@Value("${jwt.secret.token}") String secretToken) {
-        byte[] keyBytes = Base64.getDecoder().decode(secretToken.getBytes(StandardCharsets.UTF_8));
+        byte[] keyBytes = Base64.getDecoder().decode(secretToken);
         this.secretKey = new SecretKeySpec(keyBytes, "HmacSHA256");
     }
 
@@ -46,14 +46,38 @@ public class JWTUtils {
         return claimsResolver.apply(Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload());
     }
 
+    public Collection<? extends GrantedAuthority> extractAuthorities(String token) {
+        List<Map<String, String>> roles = extractClaims(token, claims -> claims.get("role", List.class));
+
+        return roles.stream()
+                .map(roleMap -> new SimpleGrantedAuthority(roleMap.get("authority")))
+                .toList();
+    }
+
+    public Date extractExpirationDate(String token) {
+        return extractClaims(token, claims -> claims.get("exp", Date.class));
+    }
+
     public String extractUsername(String token) {
         return extractClaims(token, Claims::getSubject);
     }
 
+    public String extractToken(HttpServletRequest httpServletRequest) {
+        final String BEARER_PREFIX = "Bearer ";
+        String token = httpServletRequest.getHeader("Authorization");
+
+        if (token == null || !token.startsWith(BEARER_PREFIX)) {
+            throw new IllegalArgumentException("Invalid or missing Authorization header");
+        }
+
+        return token.substring(BEARER_PREFIX.length());
+    }
+
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
+                .issuer("TIMELINE")
                 .subject(userDetails.getUsername())
-                .content(userDetails.getAuthorities().toString())
+                .claim("role", userDetails.getAuthorities())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + (EXPIRATION_TIME / 2)))
                 .signWith(secretKey)
@@ -62,9 +86,9 @@ public class JWTUtils {
 
     public String refreshToken(HashMap<String, Object> claims, UserDetails userDetails) {
         return Jwts.builder()
+                .issuer("TIMELINE")
                 .claims(claims)
                 .subject(userDetails.getUsername())
-                .content(userDetails.getAuthorities().toString())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(secretKey)
@@ -74,6 +98,10 @@ public class JWTUtils {
     public boolean isValidToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    public boolean isTokenExpired(Date expirationDate) {
+        return expirationDate.before(new Date());
     }
 
     public boolean isTokenExpired(String token) {

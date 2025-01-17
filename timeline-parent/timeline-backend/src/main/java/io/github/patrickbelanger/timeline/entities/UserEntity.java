@@ -42,6 +42,7 @@ public class UserEntity implements UserDetails {
     private String role;
     @Transient
     private List<String> projectsUuid;
+    public boolean revoked;
 
     public Long getId() {
         return id;
@@ -116,5 +117,13 @@ public class UserEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
+    }
+
+    public boolean isRevoked() {
+        return revoked;
+    }
+
+    public void setRevoked(boolean revoked) {
+        this.revoked = revoked;
     }
 }

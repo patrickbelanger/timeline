@@ -35,6 +35,7 @@ public class UserDTO {
     private String token;
     private String refreshToken;
     private String expirationTime;
+    private boolean revoked;
 
     public HttpStatus getStatusCode() {
         return statusCode;
@@ -122,5 +123,13 @@ public class UserDTO {
 
     public void setExpirationTime(String expirationTime) {
         this.expirationTime = expirationTime;
+    }
+
+    public boolean isRevoked() {
+        return revoked;
+    }
+
+    public void setRevoked(boolean revoked) {
+        this.revoked = revoked;
     }
 }

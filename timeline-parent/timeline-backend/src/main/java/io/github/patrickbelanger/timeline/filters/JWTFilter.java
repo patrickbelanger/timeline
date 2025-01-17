@@ -45,15 +45,15 @@ public class JWTFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
+    protected void doFilterInternal(HttpServletRequest httpServletRequest,
+                                    HttpServletResponse httpServletResponse,
                                     FilterChain filterChain) throws ServletException, IOException {
-        final String authorizationHeader = request.getHeader("Authorization");
+        final String authorizationHeader = httpServletRequest.getHeader("Authorization");
         final String jwtToken;
         final String userEmail;
 
         if (authorizationHeader == null || authorizationHeader.isBlank()) {
-            filterChain.doFilter(request, response);
+            filterChain.doFilter(httpServletRequest, httpServletResponse);
             return;
         }
 
@@ -61,14 +61,14 @@ public class JWTFilter extends OncePerRequestFilter {
         userEmail = jwtUtils.extractUsername(jwtToken);
 
         if (userEmail == null || SecurityContextHolder.getContext().getAuthentication() != null) {
-            filterChain.doFilter(request, response);
+            filterChain.doFilter(httpServletRequest, httpServletResponse);
             return;
         }
 
         UserDetails userDetails = userService.loadUserByUsername(userEmail);
 
         if (!jwtUtils.isValidToken(jwtToken, userDetails)) {
-            filterChain.doFilter(request, response);
+            filterChain.doFilter(httpServletRequest, httpServletResponse);
             return;
         }
 
@@ -76,10 +76,10 @@ public class JWTFilter extends OncePerRequestFilter {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities()
         );
-        token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        token.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
         securityContext.setAuthentication(token);
         SecurityContextHolder.setContext(securityContext);
 
-        filterChain.doFilter(request, response);
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 }

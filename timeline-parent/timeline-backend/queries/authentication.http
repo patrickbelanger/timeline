@@ -18,3 +18,14 @@ Content-Type: application/json
 }
 
 > {% client.global.set("authToken", response.body.token); %}
+
+### GET (is authenticated)
+GET {{host}}:{{port}}/api/v1/authenticate
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+### POST logout
+POST {{host}}:{{port}}/api/v1/authenticate/logout
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
