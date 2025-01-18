@@ -35,11 +35,6 @@ public class AuthenticationController {
         this.userManagementService = userManagementService;
     }
 
-    @GetMapping
-    public ResponseEntity<Boolean> isAuthenticated(HttpServletRequest request) {
-        return new ResponseEntity<>(userManagementService.isAuthenticated(request), HttpStatus.OK);
-    }
-
     @PostMapping("/login")
     public ResponseEntity<UserDTO> login(@RequestBody UserDTO userDTO) {
         UserDTO currentUserDTO = userManagementService.login(userDTO);

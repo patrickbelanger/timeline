@@ -100,15 +100,6 @@ public class UserManagementService {
                 return response;
         }
 
-        public boolean isAuthenticated(HttpServletRequest httpServletRequest) {
-                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                String token = jwtUtils.extractToken(httpServletRequest);
-                return authentication != null
-                        && authentication.isAuthenticated()
-                        && !jwtUtils.isTokenExpired(token)
-                        && !isTokenBlacklisted(token);
-        }
-
         public boolean isTokenBlacklisted(String token) {
                 Date expirationDate = tokenBlacklist.get(token);
                 return expirationDate != null && !jwtUtils.isTokenExpired(expirationDate);
