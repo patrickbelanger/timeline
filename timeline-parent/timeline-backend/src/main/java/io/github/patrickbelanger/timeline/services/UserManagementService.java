@@ -17,6 +17,7 @@
 
 package io.github.patrickbelanger.timeline.services;
 
+import io.github.patrickbelanger.timeline.configurations.TokenBlacklistCacheConfig;
 import io.github.patrickbelanger.timeline.dtos.UserDTO;
 import io.github.patrickbelanger.timeline.entities.UserEntity;
 import io.github.patrickbelanger.timeline.repositories.UsersRepository;
@@ -24,6 +25,8 @@ import io.github.patrickbelanger.timeline.utils.JWTUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,11 +37,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class UserManagementService {
@@ -48,7 +48,6 @@ public class UserManagementService {
         private final ModelMapper modelMapper;
         private final PasswordEncoder passwordEncoder;
         private final UsersRepository usersRepository;
-        private final Map<String, Date> tokenBlacklist = new ConcurrentHashMap<>(); // Should replace this with Redis?
 
         private UserManagementService(AuthenticationManager authenticationManager,
                                       JWTUtils jwtUtils,
@@ -84,13 +83,12 @@ public class UserManagementService {
         public UserDTO logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
                 UserDTO response = new UserDTO();
                 String token = jwtUtils.extractToken(httpServletRequest);
-                if (jwtUtils.isTokenExpired(token) || tokenBlacklist.containsKey(token)) {
+                if (jwtUtils.isTokenExpired(token)) {
                         response.setStatusCode(HttpStatus.BAD_REQUEST);
                         response.setMessage("Token is expired");
                         return response;
                 }
 
-                tokenBlacklist.put(token, jwtUtils.extractExpirationDate(token));
 
                 new SecurityContextLogoutHandler().logout(httpServletRequest, httpServletResponse,
                         SecurityContextHolder.getContext().getAuthentication());
@@ -100,9 +98,14 @@ public class UserManagementService {
                 return response;
         }
 
-        public boolean isTokenBlacklisted(String token) {
-                Date expirationDate = tokenBlacklist.get(token);
-                return expirationDate != null && !jwtUtils.isTokenExpired(expirationDate);
+        @CachePut(TokenBlacklistCacheConfig.BLACKLIST_CACHE_NAME)
+        public String blacklistToken(String token) {
+                return token;
+        }
+
+        @Cacheable(value = TokenBlacklistCacheConfig.BLACKLIST_CACHE_NAME, unless = "#result == null")
+        public String getBlacklistedToken(String token) {
+                return null;
         }
 
         public UserDTO refresh(UserDTO userDTO) {

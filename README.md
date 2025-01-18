@@ -75,3 +75,24 @@ podman compose up -d
 ```
 
 This will start all the required service dependencies for the application, including Redis and Postgres.
+
+# Launch the application
+
+## Launching unit and integration tests
+
+Make sure to copy these properties in the `application-local.properties` before executing the command:
+
+```bash
+mvn test
+```
+
+Properties to add:
+
+```properties
+#H2 (test) Datasource
+spring.datasource.test.url=jdbc:h2:mem/unit_test_db
+spring.datasource.test.diver-class-name=org.h2.Driver
+spring.datasource.test.username=sa
+spring.datasource.test.password=<replace by H2 default password>
+spring.jpa.test.hibernate.ddl-auto=create-drop
+```
