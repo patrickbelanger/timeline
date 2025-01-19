@@ -14,11 +14,10 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+
 package io.github.patrickbelanger.timeline.builders;
 
-import io.github.patrickbelanger.timeline.dtos.AuthorDTO;
 import io.github.patrickbelanger.timeline.dtos.UserDTO;
-import org.springframework.http.HttpStatus;
 
 public class UserDTOBuilder {
 
@@ -26,21 +25,6 @@ public class UserDTOBuilder {
 
     public UserDTOBuilder() {
         this.userDTO = new UserDTO();
-    }
-
-    public UserDTOBuilder setStatusCode(HttpStatus statusCode) {
-        userDTO.setStatusCode(statusCode);
-        return this;
-    }
-
-    public UserDTOBuilder setError(String error) {
-        userDTO.setError(error);
-        return this;
-    }
-
-    public UserDTOBuilder setMessage(String message) {
-        userDTO.setMessage(message);
-        return this;
     }
 
     public UserDTOBuilder setUuid(String uuid) {
@@ -65,21 +49,6 @@ public class UserDTOBuilder {
 
     public UserDTOBuilder setRole(String role) {
         userDTO.setRole(role);
-        return this;
-    }
-
-    public UserDTOBuilder setToken(String token) {
-        userDTO.setToken(token);
-        return this;
-    }
-
-    public UserDTOBuilder setRefreshToken(String refreshToken) {
-        userDTO.setRefreshToken(refreshToken);
-        return this;
-    }
-
-    public UserDTOBuilder setExpirationTime(String expirationTime) {
-        userDTO.setExpirationTime(expirationTime);
         return this;
     }
 

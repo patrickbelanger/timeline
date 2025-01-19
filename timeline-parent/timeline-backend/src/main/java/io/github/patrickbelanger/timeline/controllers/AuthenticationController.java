@@ -18,6 +18,7 @@
 package io.github.patrickbelanger.timeline.controllers;
 
 import io.github.patrickbelanger.timeline.dtos.UserDTO;
+import io.github.patrickbelanger.timeline.models.ApiResponse;
 import io.github.patrickbelanger.timeline.services.UserManagementService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -36,19 +37,19 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserDTO> login(@RequestBody UserDTO userDTO) {
-        UserDTO currentUserDTO = userManagementService.login(userDTO);
+    public ResponseEntity<ApiResponse<UserDTO>> login(@RequestBody UserDTO userDTO) {
+        ApiResponse<UserDTO> currentUserDTO = userManagementService.login(userDTO);
         return new ResponseEntity<>(currentUserDTO, currentUserDTO.getStatusCode());
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<UserDTO> logout(HttpServletRequest request, HttpServletResponse response) {
-        UserDTO currentUserDTO = userManagementService.logout(request, response);
+    public ResponseEntity<ApiResponse<UserDTO>> logout(HttpServletRequest request, HttpServletResponse response) {
+        ApiResponse<UserDTO> currentUserDTO = userManagementService.logout(request, response);
         return new ResponseEntity<>(currentUserDTO, currentUserDTO.getStatusCode());
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDTO> register(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<ApiResponse<UserDTO>> register(@RequestBody UserDTO userDTO) {
         return new ResponseEntity<>(userManagementService.register(userDTO), HttpStatus.OK);
     }
 }

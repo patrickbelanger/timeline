@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -30,42 +29,12 @@ import org.springframework.web.context.WebApplicationContext;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserDTO {
-    private HttpStatus statusCode;
-    private String error;
-    private String message;
     private String uuid;
     private String username;
     private String name;
     private String password;
     private String role;
-    private String token;
-    private String refreshToken;
-    private String expirationTime;
     private boolean revoked;
-
-    public HttpStatus getStatusCode() {
-        return statusCode;
-    }
-
-    public void setStatusCode(HttpStatus statusCode) {
-        this.statusCode = statusCode;
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
     public String getUuid() {
         return uuid;
@@ -105,30 +74,6 @@ public class UserDTO {
 
     public void setRole(String role) {
         this.role = role;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
-
-    public String getExpirationTime() {
-        return expirationTime;
-    }
-
-    public void setExpirationTime(String expirationTime) {
-        this.expirationTime = expirationTime;
     }
 
     public boolean isRevoked() {

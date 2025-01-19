@@ -20,6 +20,7 @@ package io.github.patrickbelanger.timeline.services;
 import io.github.patrickbelanger.timeline.configurations.TokenBlacklistCacheConfig;
 import io.github.patrickbelanger.timeline.dtos.UserDTO;
 import io.github.patrickbelanger.timeline.entities.UserEntity;
+import io.github.patrickbelanger.timeline.models.ApiResponse;
 import io.github.patrickbelanger.timeline.repositories.UsersRepository;
 import io.github.patrickbelanger.timeline.utils.JWTUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -61,8 +62,7 @@ public class UserManagementService {
                 this.usersRepository = usersRepository;
         }
 
-        public UserDTO login(UserDTO userDTO) {
-                UserDTO response = new UserDTO();
+        public ApiResponse<UserDTO> login(UserDTO userDTO) {
                 UserEntity currentUser = usersRepository.findByUsername(userDTO.getUsername())
                         .orElseThrow(() -> new UsernameNotFoundException(userDTO.getUsername()));
 
@@ -71,31 +71,33 @@ public class UserManagementService {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                response.setStatusCode(HttpStatus.OK);
-                response.setToken(jwtUtils.generateToken(currentUser));
-                response.setRole(currentUser.getRole());
-                response.setRefreshToken(jwtUtils.refreshToken(new HashMap<>(), currentUser));
-                response.setMessage("Authenticated - Token created");
+                UserDTO loggedUser = modelMapper.map(currentUser, UserDTO.class);
 
-                return response;
+            return new ApiResponse<>(
+                        HttpStatus.OK,
+                        "Authentication successful",
+                        jwtUtils.generateToken(currentUser),
+                        jwtUtils.refreshToken(new HashMap<>(), currentUser),
+                        loggedUser
+                );
         }
 
-        public UserDTO logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-                UserDTO response = new UserDTO();
+        public ApiResponse<UserDTO> logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
                 String token = jwtUtils.extractToken(httpServletRequest);
                 if (jwtUtils.isTokenExpired(token)) {
-                        response.setStatusCode(HttpStatus.BAD_REQUEST);
-                        response.setMessage("Token is expired");
-                        return response;
+                        return new ApiResponse<>(
+                                HttpStatus.BAD_REQUEST,
+                                "Token is expired"
+                        );
                 }
-
 
                 new SecurityContextLogoutHandler().logout(httpServletRequest, httpServletResponse,
                         SecurityContextHolder.getContext().getAuthentication());
 
-                response.setStatusCode(HttpStatus.OK);
-                response.setMessage("Logout successful");
-                return response;
+                return new ApiResponse<>(
+                        HttpStatus.OK,
+                        "Logout successful"
+                );
         }
 
         @CachePut(TokenBlacklistCacheConfig.BLACKLIST_CACHE_NAME)
@@ -108,7 +110,8 @@ public class UserManagementService {
                 return null;
         }
 
-        public UserDTO refresh(UserDTO userDTO) {
+        /* TO REFACTOR/TEST (MIGHT BE MOVED ELSEWHERE)
+        public ApiResponse<UserDTO> refresh(UserDTO userDTO) {
                 UserDTO response = new UserDTO();
                 String currentEmail = jwtUtils.extractUsername(userDTO.getUsername());
                 UserEntity currentUser = usersRepository.findByUsername(userDTO.getUsername())
@@ -127,11 +130,16 @@ public class UserManagementService {
 
                 return response;
         }
+         */
 
-        public UserDTO register(UserDTO userDTO) {
+        public ApiResponse<UserDTO> register(UserDTO userDTO) {
                 userDTO.setUuid(UUID.randomUUID().toString());
                 userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
                 UserEntity currentUser = usersRepository.save(modelMapper.map(userDTO, UserEntity.class));
-                return modelMapper.map(currentUser, UserDTO.class);
+                return new ApiResponse<>(
+                        HttpStatus.OK,
+                        "User registration successful",
+                        modelMapper.map(currentUser, UserDTO.class)
+                );
         }
 }
