@@ -17,7 +17,6 @@
 
 package io.github.patrickbelanger.timeline.services;
 
-import io.github.patrickbelanger.timeline.configurations.TokenBlacklistCacheConfig;
 import io.github.patrickbelanger.timeline.dtos.UserDTO;
 import io.github.patrickbelanger.timeline.entities.UserEntity;
 import io.github.patrickbelanger.timeline.models.ApiResponse;
@@ -26,8 +25,6 @@ import io.github.patrickbelanger.timeline.utils.JWTUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.modelmapper.ModelMapper;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -48,17 +45,20 @@ public class UserManagementService {
         private final JWTUtils jwtUtils;
         private final ModelMapper modelMapper;
         private final PasswordEncoder passwordEncoder;
+        private final RedisBlacklistTokenService redisBlacklistTokenService;
         private final UsersRepository usersRepository;
 
-        private UserManagementService(AuthenticationManager authenticationManager,
+        public UserManagementService(AuthenticationManager authenticationManager,
                                       JWTUtils jwtUtils,
                                       ModelMapper modelMapper,
                                       PasswordEncoder passwordEncoder,
+                                      RedisBlacklistTokenService redisBlacklistTokenService,
                                       UsersRepository usersRepository) {
                 this.authenticationManager = authenticationManager;
                 this.jwtUtils = jwtUtils;
                 this.modelMapper = modelMapper;
                 this.passwordEncoder = passwordEncoder;
+                this.redisBlacklistTokenService = redisBlacklistTokenService;
                 this.usersRepository = usersRepository;
         }
 
@@ -91,6 +91,8 @@ public class UserManagementService {
                         );
                 }
 
+                redisBlacklistTokenService.setToken(token);
+
                 new SecurityContextLogoutHandler().logout(httpServletRequest, httpServletResponse,
                         SecurityContextHolder.getContext().getAuthentication());
 
@@ -98,16 +100,6 @@ public class UserManagementService {
                         HttpStatus.OK,
                         "Logout successful"
                 );
-        }
-
-        @CachePut(TokenBlacklistCacheConfig.BLACKLIST_CACHE_NAME)
-        public String blacklistToken(String token) {
-                return token;
-        }
-
-        @Cacheable(value = TokenBlacklistCacheConfig.BLACKLIST_CACHE_NAME, unless = "#result == null")
-        public String getBlacklistedToken(String token) {
-                return null;
         }
 
         /* TO REFACTOR/TEST (MIGHT BE MOVED ELSEWHERE)

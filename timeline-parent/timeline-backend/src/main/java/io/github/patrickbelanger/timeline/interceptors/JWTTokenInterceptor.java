@@ -18,7 +18,7 @@
 package io.github.patrickbelanger.timeline.interceptors;
 
 import io.github.patrickbelanger.timeline.dtos.UserDTO;
-import io.github.patrickbelanger.timeline.services.UserManagementService;
+import io.github.patrickbelanger.timeline.services.RedisBlacklistTokenService;
 import io.github.patrickbelanger.timeline.utils.JWTUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,12 +32,14 @@ public class JWTTokenInterceptor implements HandlerInterceptor {
 
     private JWTUtils jwtUtils;
     private UserDTO userDTO;
-    private UserManagementService userManagementService;
+    private RedisBlacklistTokenService redisBlacklistTokenService;
 
-    public JWTTokenInterceptor(JWTUtils jwtUtils, UserDTO userDTO, UserManagementService userManagementService) {
+    public JWTTokenInterceptor(JWTUtils jwtUtils,
+                               UserDTO userDTO,
+                               RedisBlacklistTokenService redisBlacklistTokenService) {
         this.jwtUtils = jwtUtils;
         this.userDTO = userDTO;
-        this.userManagementService = userManagementService;
+        this.redisBlacklistTokenService = redisBlacklistTokenService;
     }
 
     @Override
@@ -45,13 +47,17 @@ public class JWTTokenInterceptor implements HandlerInterceptor {
                              HttpServletResponse httpServletResponse,
                              Object handler) throws IOException {
         String token = jwtUtils.extractToken(httpServletRequest);
+        String username = jwtUtils.extractUsername(token);
+        boolean isExpired = jwtUtils.isTokenExpired(token);
 
-        if (userManagementService.getBlacklistedToken(token) != null) {
+        if (redisBlacklistTokenService.getToken(token) != null) {
             httpServletResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
             return false;
         }
+        if (isExpired) {
 
-        userDTO.setToken(token);
+        }
+
         return true;
     }
 }

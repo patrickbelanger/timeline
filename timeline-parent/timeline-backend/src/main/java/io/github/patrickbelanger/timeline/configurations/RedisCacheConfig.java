@@ -17,10 +17,13 @@
 
 package io.github.patrickbelanger.timeline.configurations;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -32,9 +35,11 @@ import java.util.Map;
 
 @Configuration
 @AutoConfigureAfter(RedisAutoConfiguration.class)
-public class TokenBlacklistCacheConfig {
+@EnableCaching
+public class RedisCacheConfig {
 
-    public final static String BLACKLIST_CACHE_NAME = "token-blacklist";
+    private final Logger logger = LoggerFactory.getLogger(RedisCacheConfig.class);
+    public final static String BLACKLIST_TOKEN_CACHE_NAME = "blacklist-token-cache";
 
     @Value("${jwt.expiry.ttl:0}")
     private int expiryTtl;
@@ -47,6 +52,7 @@ public class TokenBlacklistCacheConfig {
 
     @Bean
     public LettuceConnectionFactory lettuceConnectionFactory() {
+        logger.info("Creating Redis/LettuceConnectionFactory at {}:{}", host, port);
         return new LettuceConnectionFactory(host, port);
     }
 
@@ -54,11 +60,12 @@ public class TokenBlacklistCacheConfig {
     public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer() {
         return (builder -> {
            Map<String, RedisCacheConfiguration> configMap = new HashMap<>();
-           configMap.put(BLACKLIST_CACHE_NAME, RedisCacheConfiguration
+           configMap.put(BLACKLIST_TOKEN_CACHE_NAME, RedisCacheConfiguration
                    .defaultCacheConfig()
                    .entryTtl(Duration.ofSeconds(expiryTtl))
            );
            builder.withInitialCacheConfigurations(configMap);
+           logger.info("Configuring Redis/LettuceCacheManagerBuilderCustomizer {}", configMap.keySet());
         });
     }
 }

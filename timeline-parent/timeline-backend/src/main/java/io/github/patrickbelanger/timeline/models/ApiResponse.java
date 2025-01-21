@@ -17,8 +17,12 @@
 
 package io.github.patrickbelanger.timeline.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.http.HttpStatus;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ApiResponse<T> {
     private HttpStatus statusCode;
     private String message;
