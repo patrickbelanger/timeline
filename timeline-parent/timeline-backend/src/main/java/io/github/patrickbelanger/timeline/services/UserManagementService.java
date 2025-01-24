@@ -25,6 +25,8 @@ import io.github.patrickbelanger.timeline.utils.JWTUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -46,20 +48,27 @@ public class UserManagementService {
         private final ModelMapper modelMapper;
         private final PasswordEncoder passwordEncoder;
         private final RedisBlacklistTokenService redisBlacklistTokenService;
+        private final RedisRefreshTokenService redisRefreshTokenService;
         private final UsersRepository usersRepository;
 
         public UserManagementService(AuthenticationManager authenticationManager,
-                                      JWTUtils jwtUtils,
-                                      ModelMapper modelMapper,
-                                      PasswordEncoder passwordEncoder,
-                                      RedisBlacklistTokenService redisBlacklistTokenService,
-                                      UsersRepository usersRepository) {
+                                     JWTUtils jwtUtils,
+                                     ModelMapper modelMapper,
+                                     PasswordEncoder passwordEncoder,
+                                     RedisBlacklistTokenService redisBlacklistTokenService,
+                                     RedisRefreshTokenService redisRefreshTokenService,
+                                     UsersRepository usersRepository) {
                 this.authenticationManager = authenticationManager;
                 this.jwtUtils = jwtUtils;
                 this.modelMapper = modelMapper;
                 this.passwordEncoder = passwordEncoder;
                 this.redisBlacklistTokenService = redisBlacklistTokenService;
+                this.redisRefreshTokenService = redisRefreshTokenService;
                 this.usersRepository = usersRepository;
+        }
+
+        public Page<UserDTO> getUsers(Pageable pageable) {
+                return usersRepository.findAll(pageable).map(u -> modelMapper.map(u, UserDTO.class));
         }
 
         public ApiResponse<UserDTO> login(UserDTO userDTO) {
@@ -72,14 +81,17 @@ public class UserManagementService {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
                 UserDTO loggedUser = modelMapper.map(currentUser, UserDTO.class);
+                String refreshToken = jwtUtils.refreshToken(new HashMap<>(), currentUser);
+
+                redisRefreshTokenService.setToken(refreshToken, currentUser.getUsername());
 
             return new ApiResponse<>(
-                        HttpStatus.OK,
-                        "Authentication successful",
-                        jwtUtils.generateToken(currentUser),
-                        jwtUtils.refreshToken(new HashMap<>(), currentUser),
-                        loggedUser
-                );
+                HttpStatus.OK,
+                "Authentication successful",
+                jwtUtils.generateToken(currentUser),
+                refreshToken,
+                loggedUser
+            );
         }
 
         public ApiResponse<UserDTO> logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
@@ -102,27 +114,32 @@ public class UserManagementService {
                 );
         }
 
-        /* TO REFACTOR/TEST (MIGHT BE MOVED ELSEWHERE)
-        public ApiResponse<UserDTO> refresh(UserDTO userDTO) {
-                UserDTO response = new UserDTO();
-                String currentEmail = jwtUtils.extractUsername(userDTO.getUsername());
+        public ApiResponse<UserDTO> refresh(UserDTO userDTO, String currentToken, String refreshToken) {
+                if (jwtUtils.isTokenExpired(refreshToken)) {
+                        return new ApiResponse<>(
+                                HttpStatus.BAD_REQUEST,
+                                "Refresh token is expired"
+                        );
+                }
+
                 UserEntity currentUser = usersRepository.findByUsername(userDTO.getUsername())
                         .orElseThrow(() -> new UsernameNotFoundException(userDTO.getUsername()));
 
-                if (!jwtUtils.isValidToken(userDTO.getRefreshToken(), currentUser)) {
-                        response.setStatusCode(HttpStatus.BAD_REQUEST);
-                        return response;
-                }
+                redisBlacklistTokenService.setToken(currentToken);
+                redisBlacklistTokenService.setToken(refreshToken);
 
-                response.setStatusCode(HttpStatus.OK);
-                response.setToken(jwtUtils.generateToken(currentUser));
-                response.setRole(currentUser.getRole());
-                response.setRefreshToken(userDTO.getRefreshToken());
-                response.setMessage("Token refreshed");
+                refreshToken = jwtUtils.refreshToken(new HashMap<>(), currentUser);
 
-                return response;
+                redisRefreshTokenService.setToken(refreshToken, currentUser.getUsername());
+
+                return new ApiResponse<>(
+                        HttpStatus.OK,
+                        "Token refreshed",
+                        jwtUtils.generateToken(currentUser),
+                        refreshToken,
+                        userDTO
+                );
         }
-         */
 
         public ApiResponse<UserDTO> register(UserDTO userDTO) {
                 userDTO.setUuid(UUID.randomUUID().toString());

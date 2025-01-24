@@ -17,7 +17,7 @@
 
 package io.github.patrickbelanger.timeline.configurations;
 
-import io.github.patrickbelanger.timeline.filters.JWTFilter;
+import io.github.patrickbelanger.timeline.filters.JWTAuthenticationFilter;
 import io.github.patrickbelanger.timeline.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,27 +40,26 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final UserService userService;
-    private final JWTFilter jwtFilter;
+    private final JWTAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityConfig(UserService userService, JWTFilter jwtFilter) {
+    public SecurityConfig(UserService userService, JWTAuthenticationFilter jwtAuthenticationFilter) {
         this.userService = userService;
-        this.jwtFilter = jwtFilter;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
-                // .authorizeHttpRequests(request -> request.anyRequest().permitAll())
                 .authorizeHttpRequests(request-> request
                         .requestMatchers("/api/v1/authenticate", "/api/v1/authenticate/**").permitAll()
-                        .requestMatchers("/api/v1/authors/**").hasAnyAuthority("USER")
+                        .requestMatchers("/api/v1/authors", "/api/v1/authors/**").hasAnyAuthority("USER")
+                        .requestMatchers("/api/v1/users", "/api/v1/users/**").hasAnyAuthority("USER")
                         .anyRequest().authenticated())
 
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider()).addFilterBefore(
-                        jwtFilter, UsernamePasswordAuthenticationFilter.class
-                );
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
 

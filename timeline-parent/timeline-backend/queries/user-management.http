@@ -1,0 +1,6 @@
+### GET all users
+GET {{host}}:{{port}}/api/v1/users
+Accept: application/json
+Authorization: Bearer {{authToken}}
+
+> {% client.global.set("authToken", response.headers.valueOf("X-Token")); %}

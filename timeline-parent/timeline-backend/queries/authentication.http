@@ -17,7 +17,7 @@ Content-Type: application/json
   "password" : "Test$12345"
 }
 
-> {% client.global.set("authToken", response.body.token); %}
+> {% client.global.set("authToken", response.body.token || response.headers["X-Token"]); %}
 
 ### POST logout
 POST {{host}}:{{port}}/api/v1/authenticate/logout

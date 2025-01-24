@@ -17,7 +17,7 @@
 
 package io.github.patrickbelanger.timeline.controllers;
 
-import io.github.patrickbelanger.timeline.filters.JWTFilter;
+import io.github.patrickbelanger.timeline.filters.JWTAuthenticationFilter;
 import io.github.patrickbelanger.timeline.mocks.AuthorDTOMocks;
 import io.github.patrickbelanger.timeline.services.AuthorService;
 import io.github.patrickbelanger.timeline.services.UserService;
@@ -53,7 +53,7 @@ public class AuthorControllerUnitTest {
     private UserService userService;
 
     @MockitoBean
-    private JWTFilter jwtFilter;
+    private JWTAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
     void getAuthors_shouldGetPageAuthors() throws Exception {

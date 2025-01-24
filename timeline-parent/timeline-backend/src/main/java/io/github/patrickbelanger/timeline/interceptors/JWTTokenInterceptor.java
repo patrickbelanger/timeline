@@ -17,46 +17,70 @@
 
 package io.github.patrickbelanger.timeline.interceptors;
 
+import io.github.patrickbelanger.timeline.builders.UserDTOBuilder;
 import io.github.patrickbelanger.timeline.dtos.UserDTO;
+import io.github.patrickbelanger.timeline.models.ApiResponse;
 import io.github.patrickbelanger.timeline.services.RedisBlacklistTokenService;
+import io.github.patrickbelanger.timeline.services.RedisRefreshTokenService;
+import io.github.patrickbelanger.timeline.services.UserManagementService;
 import io.github.patrickbelanger.timeline.utils.JWTUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 public class JWTTokenInterceptor implements HandlerInterceptor {
 
-    private JWTUtils jwtUtils;
-    private UserDTO userDTO;
-    private RedisBlacklistTokenService redisBlacklistTokenService;
+    private final Logger logger = LoggerFactory.getLogger(JWTTokenInterceptor.class);
+    private final JWTUtils jwtUtils;
+    private final UserDTO userDTO;
+    private final RedisBlacklistTokenService redisBlacklistTokenService;
+    private final RedisRefreshTokenService redisRefreshTokenService;
+    private final UserManagementService userManagementService;
 
     public JWTTokenInterceptor(JWTUtils jwtUtils,
                                UserDTO userDTO,
-                               RedisBlacklistTokenService redisBlacklistTokenService) {
+                               RedisBlacklistTokenService redisBlacklistTokenService,
+                               RedisRefreshTokenService redisRefreshTokenService,
+                               UserManagementService userManagementService) {
         this.jwtUtils = jwtUtils;
         this.userDTO = userDTO;
         this.redisBlacklistTokenService = redisBlacklistTokenService;
+        this.redisRefreshTokenService = redisRefreshTokenService;
+        this.userManagementService  = userManagementService;
     }
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest,
                              HttpServletResponse httpServletResponse,
                              Object handler) throws IOException {
+        Optional<ApiResponse<UserDTO>> currentUser = Optional.empty();
         String token = jwtUtils.extractToken(httpServletRequest);
         String username = jwtUtils.extractUsername(token);
+        String refreshToken = redisRefreshTokenService.getToken(username);
         boolean isExpired = jwtUtils.isTokenExpired(token);
 
         if (redisBlacklistTokenService.getToken(token) != null) {
+            logger.info("Expired token for user {}", username.replaceAll("(?<=.{2}).(?=.*@.{2})", "*"));
             httpServletResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
             return false;
         }
-        if (isExpired) {
-
+        if (isExpired && refreshToken != null && !jwtUtils.isTokenExpired(refreshToken)) {
+            logger.info("Refresh expired token for user {}", username.replaceAll("(?<=.{2}).(?=.*@.{2})", "*"));
+            currentUser = Optional.of(userManagementService
+                    .refresh(new UserDTOBuilder().setUsername(username).build(), token, refreshToken)
+            );
+            redisBlacklistTokenService.setToken(token);
+            redisRefreshTokenService.setToken(currentUser.map(ApiResponse::getRefreshToken).orElseThrow(), username);
         }
+        httpServletResponse.setHeader("X-Token", currentUser.map(ApiResponse::getToken).orElse(token));
+        httpServletResponse.setHeader("X-Refresh-Token", currentUser.map(ApiResponse::getRefreshToken).orElse(refreshToken));
 
         return true;
     }

@@ -40,6 +40,7 @@ public class RedisCacheConfig {
 
     private final Logger logger = LoggerFactory.getLogger(RedisCacheConfig.class);
     public final static String BLACKLIST_TOKEN_CACHE_NAME = "blacklist-token-cache";
+    public final static String REFRESH_TOKEN_CACHE_NAME = "refresh-token";
 
     @Value("${jwt.expiry.ttl:0}")
     private int expiryTtl;
@@ -61,8 +62,12 @@ public class RedisCacheConfig {
         return (builder -> {
            Map<String, RedisCacheConfiguration> configMap = new HashMap<>();
            configMap.put(BLACKLIST_TOKEN_CACHE_NAME, RedisCacheConfiguration
-                   .defaultCacheConfig()
-                   .entryTtl(Duration.ofSeconds(expiryTtl))
+               .defaultCacheConfig()
+               .entryTtl(Duration.ofSeconds(expiryTtl))
+           );
+           configMap.put(REFRESH_TOKEN_CACHE_NAME, RedisCacheConfiguration
+               .defaultCacheConfig()
+               .entryTtl(Duration.ofSeconds(expiryTtl * 2L))
            );
            builder.withInitialCacheConfigurations(configMap);
            logger.info("Configuring Redis/LettuceCacheManagerBuilderCustomizer {}", configMap.keySet());

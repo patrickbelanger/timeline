@@ -35,7 +35,7 @@ import java.util.function.Function;
 public class JWTUtils {
 
     private final SecretKey secretKey;
-    public static final long EXPIRATION_TIME = 86400000;
+    public static final long EXPIRATION_TIME = 3600 * 1000;
 
     public JWTUtils(@Value("${jwt.secret.token}") String secretToken) {
         byte[] keyBytes = Base64.getDecoder().decode(secretToken);

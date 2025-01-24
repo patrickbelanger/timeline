@@ -15,19 +15,23 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package io.github.patrickbelanger.timeline.repositories;
+package io.github.patrickbelanger.timeline.services;
 
-import io.github.patrickbelanger.timeline.entities.UserEntity;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import io.github.patrickbelanger.timeline.configurations.RedisCacheConfig;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+@Service
+public class RedisRefreshTokenService {
 
-@Repository
-public interface UsersRepository extends JpaRepository<UserEntity, Long> {
-    Page<UserEntity> findAll(Pageable pageable);
-    Optional<UserEntity> findByUsername(String username);
-    UserEntity save(UserEntity user);
+    @CachePut(value = RedisCacheConfig.REFRESH_TOKEN_CACHE_NAME, key = "#email")
+    public String setToken(String token, String email) {
+        return token;
+    }
+
+    @Cacheable(value = RedisCacheConfig.REFRESH_TOKEN_CACHE_NAME, key = "#email")
+    public String getToken(String email) {
+        return null;
+    }
 }
