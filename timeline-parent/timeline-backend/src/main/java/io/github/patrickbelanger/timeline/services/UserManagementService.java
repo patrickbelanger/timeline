@@ -38,6 +38,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -96,7 +97,7 @@ public class UserManagementService {
 
         public ApiResponse<UserDTO> logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
                 String token = jwtUtils.extractToken(httpServletRequest);
-                if (jwtUtils.isTokenExpired(token)) {
+                if (jwtUtils.isTokenExpired(token) || Objects.equals(redisBlacklistTokenService.getToken(token), token)) {
                         return new ApiResponse<>(
                                 HttpStatus.BAD_REQUEST,
                                 "Token is expired"

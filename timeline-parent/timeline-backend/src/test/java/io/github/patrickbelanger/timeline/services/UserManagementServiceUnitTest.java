@@ -20,6 +20,7 @@ package io.github.patrickbelanger.timeline.services;
 import io.github.patrickbelanger.timeline.builders.UserDTOBuilder;
 import io.github.patrickbelanger.timeline.dtos.UserDTO;
 import io.github.patrickbelanger.timeline.entities.UserEntity;
+import io.github.patrickbelanger.timeline.mocks.UserDTOMocks;
 import io.github.patrickbelanger.timeline.models.ApiResponse;
 import io.github.patrickbelanger.timeline.repositories.UsersRepository;
 import io.github.patrickbelanger.timeline.utils.JWTUtils;
@@ -30,10 +31,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 
-import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -51,6 +52,12 @@ public class UserManagementServiceUnitTest {
     private HttpServletRequest httpServletRequest;
     @Mock
     private HttpServletResponse httpServletResponse;
+    @Mock
+    private ModelMapper modelMapper;
+    @Mock
+    private RedisBlacklistTokenService redisBlacklistTokenService;
+    @Mock
+    private RedisRefreshTokenService redisRefreshTokenService;
     @Mock
     private UsersRepository usersRepository;
     @InjectMocks
@@ -85,7 +92,9 @@ public class UserManagementServiceUnitTest {
     void login_shouldBeAbleToLogin() {
         /* Arrange */
         when(jwtUtils.generateToken(any())).thenReturn("dummy-token");
+        when(modelMapper.map(any(), any())).thenReturn(UserDTOMocks.getMock());
         when(usersRepository.findByUsername(any())).thenReturn(Optional.of(userEntity));
+        when(redisRefreshTokenService.setToken(any(), any())).thenReturn(EXPIRED_TOKEN);
 
         /* Act */
         ApiResponse<UserDTO> response = userManagementService.login(userDTO);
@@ -94,7 +103,7 @@ public class UserManagementServiceUnitTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("dummy-token", response.getToken());
         assertEquals("USER", response.getData().getRole());
-        assertEquals("Authenticated - Token created", response.getMessage());
+        assertEquals("Authentication successful", response.getMessage());
         verify(usersRepository, times(1)).findByUsername(userDTO.getUsername());
     }
 
@@ -110,41 +119,37 @@ public class UserManagementServiceUnitTest {
 
         /* Assert */
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("Token is expired", response.getMessage());
+        assertEquals("Token is expired", response.getError());
         verify(jwtUtils, times(1)).isTokenExpired(EXPIRED_TOKEN);
     }
 
     @Test
     void logout_shouldReturnBadRequest_whenTokenIsBlacklisted() {
         /* Arrange */
-        Date expirationDate = new Date(System.currentTimeMillis() + 10000);
-
         when(httpServletRequest.getHeader("Authorization")).thenReturn("Bearer " + VALID_TOKEN);
         when(jwtUtils.extractToken(httpServletRequest)).thenReturn(VALID_TOKEN);
-        when(jwtUtils.extractExpirationDate(VALID_TOKEN)).thenReturn(expirationDate);
 
         /* Act */
         /* Simulating user calling the service twice */
         userManagementService.logout(httpServletRequest, httpServletResponse);
+        when(redisBlacklistTokenService.getToken(VALID_TOKEN)).thenReturn(VALID_TOKEN);
         ApiResponse<UserDTO> response = userManagementService.logout(httpServletRequest, httpServletResponse);
 
         /* Assert */
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals("Token is expired", response.getMessage());
+        assertEquals("Token is expired", response.getError());
         verify(jwtUtils, times(2)).isTokenExpired(VALID_TOKEN);
         verify(jwtUtils, times(2)).isTokenExpired(VALID_TOKEN);
-        verify(jwtUtils, times(1)).extractExpirationDate(VALID_TOKEN);
+        verify(redisBlacklistTokenService, times(1)).setToken(VALID_TOKEN);
+        verify(redisBlacklistTokenService, times(2)).getToken(VALID_TOKEN);
     }
 
     @Test
     void logout_shouldLogoutSuccessfully_whenTokenIsValid() {
         /* Arrange */
-        Date expirationDate = new Date(System.currentTimeMillis() + 10000);
-
         when(httpServletRequest.getHeader("Authorization")).thenReturn("Bearer " + VALID_TOKEN);
         when(jwtUtils.extractToken(httpServletRequest)).thenReturn(VALID_TOKEN);
         when(jwtUtils.isTokenExpired(VALID_TOKEN)).thenReturn(false);
-        when(jwtUtils.extractExpirationDate(VALID_TOKEN)).thenReturn(expirationDate);
 
         /* Act */
         ApiResponse<UserDTO> response = userManagementService.logout(httpServletRequest, httpServletResponse);
@@ -152,8 +157,7 @@ public class UserManagementServiceUnitTest {
         /* Assert */
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Logout successful", response.getMessage());
-        //assertTrue(userManagementService.isTokenBlacklisted(VALID_TOKEN));
-        verify(jwtUtils, times(1)).extractExpirationDate(VALID_TOKEN);
         verify(jwtUtils, times(1)).isTokenExpired(VALID_TOKEN);
+        verify(redisBlacklistTokenService, times(1)).setToken(VALID_TOKEN);
     }
 }
