@@ -17,7 +17,7 @@
 
 package io.github.patrickbelanger.timeline.services;
 
-import io.github.patrickbelanger.timeline.builders.UserDTOBuilder;
+import io.github.patrickbelanger.timeline.builders.dtos.UserDTOBuilder;
 import io.github.patrickbelanger.timeline.dtos.UserDTO;
 import io.github.patrickbelanger.timeline.entities.UserEntity;
 import io.github.patrickbelanger.timeline.repositories.UsersRepository;

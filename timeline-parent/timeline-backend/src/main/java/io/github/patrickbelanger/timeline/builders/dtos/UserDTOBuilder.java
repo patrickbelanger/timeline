@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package io.github.patrickbelanger.timeline.builders;
+package io.github.patrickbelanger.timeline.builders.dtos;
 
 import io.github.patrickbelanger.timeline.dtos.UserDTO;
 

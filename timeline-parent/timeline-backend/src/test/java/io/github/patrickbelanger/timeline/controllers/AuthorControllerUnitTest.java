@@ -18,10 +18,12 @@
 package io.github.patrickbelanger.timeline.controllers;
 
 import io.github.patrickbelanger.timeline.filters.JWTAuthenticationFilter;
-import io.github.patrickbelanger.timeline.mocks.AuthorDTOMocks;
-import io.github.patrickbelanger.timeline.services.AuthorService;
-import io.github.patrickbelanger.timeline.services.UserService;
+import io.github.patrickbelanger.timeline.interceptors.JWTTokenInterceptor;
+import io.github.patrickbelanger.timeline.mocks.dtos.AuthorDTOMocks;
+import io.github.patrickbelanger.timeline.services.*;
+import io.github.patrickbelanger.timeline.utils.JWTUtils;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -46,6 +48,9 @@ public class AuthorControllerUnitTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Mock
+    private JWTTokenInterceptor jwtTokenInterceptor;
+
     @MockitoBean
     private AuthorService authorService;
 
@@ -53,7 +58,19 @@ public class AuthorControllerUnitTest {
     private UserService userService;
 
     @MockitoBean
+    private UserManagementService userManagementService;
+
+    @MockitoBean
     private JWTAuthenticationFilter jwtAuthenticationFilter;
+
+    @MockitoBean
+    private JWTUtils jwtUtils;
+
+    @MockitoBean
+    private RedisBlacklistTokenService redisBlacklistTokenService;
+
+    @MockitoBean
+    private RedisRefreshTokenService redisRefreshTokenService;
 
     @Test
     void getAuthors_shouldGetPageAuthors() throws Exception {

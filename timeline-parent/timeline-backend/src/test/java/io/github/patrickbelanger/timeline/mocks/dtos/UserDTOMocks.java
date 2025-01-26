@@ -15,9 +15,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package io.github.patrickbelanger.timeline.mocks;
+package io.github.patrickbelanger.timeline.mocks.dtos;
 
-import io.github.patrickbelanger.timeline.builders.UserDTOBuilder;
+import io.github.patrickbelanger.timeline.builders.dtos.UserDTOBuilder;
 import io.github.patrickbelanger.timeline.dtos.UserDTO;
 
 import java.util.UUID;

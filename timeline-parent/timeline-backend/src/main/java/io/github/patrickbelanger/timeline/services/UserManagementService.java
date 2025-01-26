@@ -19,7 +19,7 @@ package io.github.patrickbelanger.timeline.services;
 
 import io.github.patrickbelanger.timeline.dtos.UserDTO;
 import io.github.patrickbelanger.timeline.entities.UserEntity;
-import io.github.patrickbelanger.timeline.models.ApiResponse;
+import io.github.patrickbelanger.timeline.wrappers.ApiResponse;
 import io.github.patrickbelanger.timeline.repositories.UsersRepository;
 import io.github.patrickbelanger.timeline.utils.JWTUtils;
 import jakarta.servlet.http.HttpServletRequest;

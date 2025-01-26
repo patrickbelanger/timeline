@@ -18,7 +18,7 @@
 package io.github.patrickbelanger.timeline.controllers;
 
 import io.github.patrickbelanger.timeline.dtos.UserDTO;
-import io.github.patrickbelanger.timeline.models.ApiResponse;
+import io.github.patrickbelanger.timeline.wrappers.ApiResponse;
 import io.github.patrickbelanger.timeline.services.UserManagementService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

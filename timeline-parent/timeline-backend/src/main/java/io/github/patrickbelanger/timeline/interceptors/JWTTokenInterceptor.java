@@ -17,9 +17,9 @@
 
 package io.github.patrickbelanger.timeline.interceptors;
 
-import io.github.patrickbelanger.timeline.builders.UserDTOBuilder;
+import io.github.patrickbelanger.timeline.builders.dtos.UserDTOBuilder;
 import io.github.patrickbelanger.timeline.dtos.UserDTO;
-import io.github.patrickbelanger.timeline.models.ApiResponse;
+import io.github.patrickbelanger.timeline.wrappers.ApiResponse;
 import io.github.patrickbelanger.timeline.services.RedisBlacklistTokenService;
 import io.github.patrickbelanger.timeline.services.RedisRefreshTokenService;
 import io.github.patrickbelanger.timeline.services.UserManagementService;
@@ -39,18 +39,15 @@ public class JWTTokenInterceptor implements HandlerInterceptor {
 
     private final Logger logger = LoggerFactory.getLogger(JWTTokenInterceptor.class);
     private final JWTUtils jwtUtils;
-    private final UserDTO userDTO;
     private final RedisBlacklistTokenService redisBlacklistTokenService;
     private final RedisRefreshTokenService redisRefreshTokenService;
     private final UserManagementService userManagementService;
 
     public JWTTokenInterceptor(JWTUtils jwtUtils,
-                               UserDTO userDTO,
                                RedisBlacklistTokenService redisBlacklistTokenService,
                                RedisRefreshTokenService redisRefreshTokenService,
                                UserManagementService userManagementService) {
         this.jwtUtils = jwtUtils;
-        this.userDTO = userDTO;
         this.redisBlacklistTokenService = redisBlacklistTokenService;
         this.redisRefreshTokenService = redisRefreshTokenService;
         this.userManagementService  = userManagementService;
