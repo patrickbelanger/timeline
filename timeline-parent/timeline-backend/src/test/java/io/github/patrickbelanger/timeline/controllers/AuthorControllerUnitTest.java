@@ -48,20 +48,14 @@ public class AuthorControllerUnitTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Mock
-    private JWTTokenInterceptor jwtTokenInterceptor;
-
     @MockitoBean
     private AuthorService authorService;
 
     @MockitoBean
-    private UserService userService;
-
-    @MockitoBean
-    private UserManagementService userManagementService;
-
-    @MockitoBean
     private JWTAuthenticationFilter jwtAuthenticationFilter;
+
+    @Mock
+    private JWTTokenInterceptor jwtTokenInterceptor;
 
     @MockitoBean
     private JWTUtils jwtUtils;
@@ -71,6 +65,12 @@ public class AuthorControllerUnitTest {
 
     @MockitoBean
     private RedisRefreshTokenService redisRefreshTokenService;
+
+    @MockitoBean
+    private UserService userService;
+
+    @MockitoBean
+    private UserManagementService userManagementService;
 
     @Test
     void getAuthors_shouldGetPageAuthors() throws Exception {

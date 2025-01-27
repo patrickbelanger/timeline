@@ -50,19 +50,19 @@ public class AuthenticationControllerUnitTest {
     private JWTTokenInterceptor jwtTokenInterceptor;
 
     @MockitoBean
-    private UserManagementService userManagementService;
+    private JWTAuthenticationFilter jwtAuthenticationFilter;
 
     @MockitoBean
-    private JWTAuthenticationFilter jwtAuthenticationFilter;
+    private JWTUtils jwtUtils;
+
+    @MockitoBean
+    private UserManagementService userManagementService;
 
     @MockitoBean
     private RedisBlacklistTokenService redisBlacklistTokenService;
 
     @MockitoBean
     private RedisRefreshTokenService redisRefreshTokenService;
-
-    @MockitoBean
-    private JWTUtils jwtUtils;
 
     @Test
     void login_shouldBeAbleToLogin() throws Exception {

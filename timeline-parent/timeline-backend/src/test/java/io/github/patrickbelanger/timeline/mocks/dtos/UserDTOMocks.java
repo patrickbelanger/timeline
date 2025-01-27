@@ -19,7 +19,10 @@ package io.github.patrickbelanger.timeline.mocks.dtos;
 
 import io.github.patrickbelanger.timeline.builders.dtos.UserDTOBuilder;
 import io.github.patrickbelanger.timeline.dtos.UserDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
+import java.util.Collections;
 import java.util.UUID;
 
 public class UserDTOMocks {
@@ -31,5 +34,9 @@ public class UserDTOMocks {
             .setPassword(UUID.randomUUID().toString())
             .setRole("USER")
             .build();
+    }
+
+    public static Page<UserDTO> getMockPage() {
+        return new PageImpl<>(Collections.singletonList(getMock()));
     }
 }
