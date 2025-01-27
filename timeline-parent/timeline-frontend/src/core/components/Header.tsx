@@ -1,8 +1,19 @@
 import { AppBar, Button, IconButton, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import LoginButton from "./buttons/LoginButton.tsx";
+import { useNavigate } from "react-router-dom";
 
-function Header() {
+type Props = {
+  isDrawerMenuDisabled?: boolean;
+  isLoginButtonVisible?: boolean;
+};
+
+function Header({
+  isDrawerMenuDisabled = true,
+  isLoginButtonVisible = true,
+}: Props) {
+  const navigate = useNavigate();
+
   return (
     <AppBar position="absolute">
       <Toolbar>
@@ -10,17 +21,24 @@ function Header() {
           size="large"
           edge="start"
           color="inherit"
-          aria-label="menu"
+          aria-label="Drawer menu"
           sx={{ mr: 2 }}
+          disabled={isDrawerMenuDisabled}
         >
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Timeline
         </Typography>
-        <Button color="inherit">
-          <LoginButton />
-        </Button>
+        {isLoginButtonVisible && (
+          <Button
+            color="inherit"
+            onClick={() => navigate("/login")}
+            aria-label="Login"
+          >
+            <LoginButton />
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   );

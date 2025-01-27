@@ -21,7 +21,7 @@ import Header from "../Header.tsx";
 function BaseLayout() {
   return (
     <>
-      <Header />
+      <Header isLoginButtonVisible />
       <Outlet />
     </>
   );

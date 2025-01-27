@@ -16,10 +16,12 @@
 // under the License.
 
 import { Outlet } from "react-router-dom";
+import Header from "../Header.tsx";
 
 function LoginLayout() {
   return (
     <>
+      <Header isLoginButtonVisible={false} />
       <Outlet />
     </>
   );

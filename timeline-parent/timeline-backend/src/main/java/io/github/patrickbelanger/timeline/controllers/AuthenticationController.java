@@ -36,6 +36,12 @@ public class AuthenticationController {
         this.userManagementService = userManagementService;
     }
 
+    // TODO: Temporary method
+    @GetMapping
+    public ResponseEntity<ApiResponse<?>> isAuthenticated(HttpServletResponse response) {
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<UserDTO>> login(@RequestBody UserDTO userDTO) {
         ApiResponse<UserDTO> currentUserDTO = userManagementService.login(userDTO);
