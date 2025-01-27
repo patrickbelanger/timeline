@@ -25,10 +25,31 @@ import org.springframework.http.HttpStatus;
 import java.util.UUID;
 
 public class ApiResponseMocks {
-    public static ApiResponse<UserDTO> getSuccessfulLoggedInUserMock() {
+    public static ApiResponse<UserDTO> getSuccessfullyLoggedInUserMock() {
         return new ApiResponse<>(
             HttpStatus.OK,
             "Authentication successful",
+            new UserDTOBuilder()
+                .setUuid(UUID.randomUUID().toString())
+                .setName("Emilie Jobin")
+                .setUsername("emilie-jobin@test.com")
+                .setPassword(UUID.randomUUID().toString())
+                .setRole("USER")
+                .build()
+        );
+    }
+
+    public static ApiResponse<UserDTO> getSuccessfullyLoggedOutUserMock() {
+        return new ApiResponse<>(
+            HttpStatus.OK,
+            "Logout successful"
+        );
+    }
+
+    public static ApiResponse<UserDTO> getSuccessfullyRegisteredUserMock() {
+        return new ApiResponse<>(
+            HttpStatus.OK,
+            "User registration successful",
             new UserDTOBuilder()
                 .setUuid(UUID.randomUUID().toString())
                 .setName("Emilie Jobin")

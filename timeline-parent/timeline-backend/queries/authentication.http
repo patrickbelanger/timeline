@@ -3,9 +3,10 @@ POST {{host}}:{{port}}/api/v1/authenticate/register
 Content-Type: application/json
 
 {
+  "name" : "First User",
   "username" : "first@test.com",
   "password" : "Test$12345",
-  "role": "USER"
+  "role" : "USER"
 }
 
 ### POST login user

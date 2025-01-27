@@ -67,7 +67,7 @@ public class AuthenticationControllerUnitTest {
     @Test
     void login_shouldBeAbleToLogin() throws Exception {
         /* Arrange */
-        when(userManagementService.login(any())).thenReturn(ApiResponseMocks.getSuccessfulLoggedInUserMock());
+        when(userManagementService.login(any())).thenReturn(ApiResponseMocks.getSuccessfullyLoggedInUserMock());
 
         /* Act & Assert */
         mockMvc.perform(post("/api/v1/authenticate/login")
@@ -79,9 +79,49 @@ public class AuthenticationControllerUnitTest {
                             }
                         """))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("Authentication successful"))
                 .andExpect(jsonPath("$.data.name").value("Emilie Jobin"))
-                .andExpect(jsonPath("$.data.username").value("emilie-jobin@test.com"));
+                .andExpect(jsonPath("$.data.username").value("emilie-jobin@test.com"))
+                .andExpect(jsonPath("$.data.role").value("USER"));
     }
 
+    @Test
+    void logout_shouldBeAbleToLogout() throws Exception {
+        /* Arrange */
+        when(jwtUtils.extractToken(any())).thenReturn("token");
+        when(jwtUtils.extractUsername(any())).thenReturn("emilie-jobin@test.com");
+        when(redisBlacklistTokenService.setToken(("token"))).thenReturn("token");
+        when(redisRefreshTokenService.getToken(any())).thenReturn("refresh-token");
+        when(userManagementService.logout(any(), any())).thenReturn(ApiResponseMocks.getSuccessfullyLoggedOutUserMock());
 
+        /* Act & Assert */
+        mockMvc.perform(post("/api/v1/authenticate/logout")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("Logout successful"));
+    }
+
+    @Test
+    void register_shouldBeAbleToRegisterNewAccount() throws Exception {
+        /* Arrange */
+        when(userManagementService.register(any())).thenReturn(ApiResponseMocks.getSuccessfullyRegisteredUserMock());
+
+        /* Act & Assert */
+        mockMvc.perform(post("/api/v1/authenticate/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {
+                                "name": "Emilie Jobin",
+                                "username": "emilie-jobin@test.com",
+                                "password": "not-so-secured",
+                                "role": "USER"
+                            }
+                        """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("User registration successful"))
+                .andExpect(jsonPath("$.data.name").value("Emilie Jobin"))
+                .andExpect(jsonPath("$.data.username").value("emilie-jobin@test.com"))
+                .andExpect(jsonPath("$.data.role").value("USER"));
+    }
 }
