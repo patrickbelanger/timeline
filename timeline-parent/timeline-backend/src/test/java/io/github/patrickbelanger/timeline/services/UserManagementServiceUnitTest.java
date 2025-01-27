@@ -21,6 +21,7 @@ import io.github.patrickbelanger.timeline.builders.dtos.UserDTOBuilder;
 import io.github.patrickbelanger.timeline.dtos.UserDTO;
 import io.github.patrickbelanger.timeline.entities.UserEntity;
 import io.github.patrickbelanger.timeline.mocks.dtos.UserDTOMocks;
+import io.github.patrickbelanger.timeline.mocks.entities.UserEntityMocks;
 import io.github.patrickbelanger.timeline.wrappers.ApiResponse;
 import io.github.patrickbelanger.timeline.repositories.UsersRepository;
 import io.github.patrickbelanger.timeline.utils.JWTUtils;
@@ -73,13 +74,7 @@ public class UserManagementServiceUnitTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        userEntity = new UserEntity();
-        userEntity.setId(1L);
-        userEntity.setUuid(UUID.randomUUID().toString());
-        userEntity.setName("Emilie Jobin");
-        userEntity.setUsername("emilie-jobin@test.com");
-        userEntity.setPassword(UUID.randomUUID().toString());
-        userEntity.setRole("USER");
+        userEntity = UserEntityMocks.getMock();
 
         userDTO = new UserDTOBuilder()
                 .setUuid(userEntity.getUuid())

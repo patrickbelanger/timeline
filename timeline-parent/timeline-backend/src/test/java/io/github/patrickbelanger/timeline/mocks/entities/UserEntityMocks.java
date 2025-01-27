@@ -25,7 +25,7 @@ import java.util.UUID;
 public class UserEntityMocks {
     public static UserEntity getMock() {
         return new UserEntityBuilder()
-            .setId(1)
+            .setId(1L)
             .setUuid(UUID.randomUUID().toString())
             .setName("Emilie Jobin")
             .setUsername("emilie-jobin@test.com")
