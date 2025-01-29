@@ -16,37 +16,34 @@
 // under the License.
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { createTheme, ThemeProvider, useMediaQuery } from "@mui/material";
-import { useMemo } from "react";
-import BaseLayout from "./core/components/layouts/BaseLayout.tsx";
-import LoginLayout from "./core/components/layouts/LoginLayout.tsx";
-import LoginForm from "./core/components/forms/LoginForm.tsx";
-import NotFound from "./core/components/pages/NotFound.tsx";
+import { CssBaseline, CssVarsProvider } from "@mui/joy";
+import LoginRegistrationLayout from "./core/components/layouts/login-registration-layout.tsx";
+import LoginForm from "./core/components/forms/login-form.tsx";
+import RegistrationForm from "./core/components/forms/registration-form.tsx";
+
+//const customTheme = extendTheme({ defaultColorScheme: "dark" });
 
 function App() {
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: prefersDarkMode ? "dark" : "light",
-        },
-      }),
-    [prefersDarkMode],
-  );
-
   return (
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Routes>
+    <CssVarsProvider>
+      <CssBaseline>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<LoginRegistrationLayout />}>
+              <Route index element={<LoginForm />} />
+              <Route path="/registration-form" element={<RegistrationForm />} />
+            </Route>
+            {/*
           <Route path="/" element={<BaseLayout />}></Route>
           <Route path="/login" element={<LoginLayout />}>
             <Route index element={<LoginForm />} />
           </Route>
           <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </ThemeProvider>
+          */}
+          </Routes>
+        </BrowserRouter>
+      </CssBaseline>
+    </CssVarsProvider>
   );
 }
 
