@@ -95,10 +95,7 @@ function LoginForm() {
                 Sign in
               </Typography>
               <Typography level="body-sm">
-                New to company?{" "}
-                <Link href="/registration-form" level="title-sm">
-                  Sign up!
-                </Link>
+                New to company? <Link href="/registration-form">Sign up!</Link>
               </Typography>
             </Stack>
           </Stack>
@@ -141,9 +138,7 @@ function LoginForm() {
                   }}
                 >
                   <Checkbox size="sm" label="Remember me" name="persistent" />
-                  <Link level="title-sm" href="#replace-with-a-link">
-                    Forgot your password?
-                  </Link>
+                  <Link href="#replace-with-a-link">Forgot your password?</Link>
                 </Box>
                 <Button type="submit" fullWidth>
                   Sign in

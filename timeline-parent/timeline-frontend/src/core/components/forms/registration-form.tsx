@@ -25,12 +25,12 @@ import {
   FormLabel,
   IconButton,
   Input,
-  Link,
   Stack,
   Typography,
 } from "@mui/joy";
 import ColorSchemeToggle from "../buttons/color-scheme-toggle.tsx";
 import BadgeRoundedIcon from "@mui/icons-material/BadgeRounded";
+import { Link } from "react-router-dom";
 
 interface InputElements extends HTMLFormControlsCollection {
   email: HTMLInputElement;
@@ -95,10 +95,7 @@ function RegistrationForm() {
                 Registration
               </Typography>
               <Typography level="body-sm">
-                New to company?{" "}
-                <Link href="#replace-with-a-link" level="title-sm">
-                  Sign up!
-                </Link>
+                New to company? <Link to="#replace-with-a-link">Sign up!</Link>
               </Typography>
             </Stack>
           </Stack>
@@ -141,9 +138,7 @@ function RegistrationForm() {
                   }}
                 >
                   <Checkbox size="sm" label="Remember me" name="persistent" />
-                  <Link level="title-sm" href="#replace-with-a-link">
-                    Forgot your password?
-                  </Link>
+                  <Link to="#replace-with-a-link">Forgot your password?</Link>
                 </Box>
                 <Button type="submit" fullWidth>
                   Sign in
