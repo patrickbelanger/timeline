@@ -31,6 +31,8 @@ import {
 import ColorSchemeToggle from "../buttons/color-scheme-toggle.tsx";
 import BadgeRoundedIcon from "@mui/icons-material/BadgeRounded";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import LanguageToggle from "../buttons/language-toggle.tsx";
 
 interface InputElements extends HTMLFormControlsCollection {
   email: HTMLInputElement;
@@ -43,6 +45,8 @@ interface LoginFormElement extends HTMLFormElement {
 }
 
 function LoginForm() {
+  const { t } = useTranslation();
+
   return (
     <>
       <Box
@@ -64,7 +68,10 @@ function LoginForm() {
             </IconButton>
             <Typography level="title-lg">Timeline</Typography>
           </Box>
-          <ColorSchemeToggle />
+          <Box sx={{ gap: 2, display: "flex", alignItems: "center" }}>
+            <LanguageToggle />
+            <ColorSchemeToggle />
+          </Box>
         </Box>
         <Box
           component="main"
@@ -92,10 +99,11 @@ function LoginForm() {
           <Stack sx={{ gap: 4, mb: 2 }}>
             <Stack sx={{ gap: 1 }}>
               <Typography component="h1" level="h3">
-                Sign in
+                {t("login.title-sign-in")}
               </Typography>
               <Typography level="body-sm">
-                New to company? <Link to="/registration-form">Sign up!</Link>
+                {t("login.subtitle-first-visit")}{" "}
+                <Link to="/registration-form">{t("login.link-sign-up")}</Link>
               </Typography>
             </Stack>
           </Stack>
@@ -106,7 +114,7 @@ function LoginForm() {
               },
             })}
           >
-            or
+            {t("login.label-or")}
           </Divider>
           <Stack sx={{ gap: 4, mt: 2 }}>
             <form
@@ -122,11 +130,11 @@ function LoginForm() {
               }}
             >
               <FormControl required>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>{t("login.input-email")}</FormLabel>
                 <Input type="email" name="email" />
               </FormControl>
               <FormControl required>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>{t("login.input-password")}</FormLabel>
                 <Input type="password" name="password" />
               </FormControl>
               <Stack sx={{ gap: 4, mt: 2 }}>
@@ -137,11 +145,17 @@ function LoginForm() {
                     alignItems: "center",
                   }}
                 >
-                  <Checkbox size="sm" label="Remember me" name="persistent" />
-                  <Link to="#replace-with-a-link">Forgot your password?</Link>
+                  <Checkbox
+                    size="sm"
+                    label={t("login.input-remember-my-email")}
+                    name="persistent"
+                  />
+                  <Link to="#replace-with-a-link">
+                    {t("login.link-forgot-your-password")}
+                  </Link>
                 </Box>
                 <Button type="submit" fullWidth>
-                  Sign in
+                  {t("login.button-sign-in")}
                 </Button>
               </Stack>
             </form>
@@ -149,7 +163,7 @@ function LoginForm() {
         </Box>
         <Box component="footer" sx={{ py: 3 }}>
           <Typography level="body-xs" sx={{ textAlign: "center" }}>
-            © Your company {new Date().getFullYear()}
+            © Patrick Bélanger {new Date().getFullYear()}
           </Typography>
         </Box>
       </Box>

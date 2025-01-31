@@ -31,6 +31,7 @@ import {
 import ColorSchemeToggle from "../buttons/color-scheme-toggle.tsx";
 import BadgeRoundedIcon from "@mui/icons-material/BadgeRounded";
 import { Link } from "react-router-dom";
+import LanguageToggle from "../buttons/language-toggle.tsx";
 
 interface InputElements extends HTMLFormControlsCollection {
   email: HTMLInputElement;
@@ -64,7 +65,10 @@ function RegistrationForm() {
             </IconButton>
             <Typography level="title-lg">Timeline</Typography>
           </Box>
-          <ColorSchemeToggle />
+          <Box sx={{ gap: 2, display: "flex", alignItems: "center" }}>
+            <LanguageToggle />
+            <ColorSchemeToggle />
+          </Box>
         </Box>
         <Box
           component="main"

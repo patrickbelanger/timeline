@@ -1,0 +1,13 @@
+{
+  "login": {
+    "title-sign-in" : "Sign in",
+    "subtitle-first-visit" : "First visit?",
+    "link-sign-up": "Sign up!",
+    "label-or": "or",
+    "input-email": "Email",
+    "input-password" : "Password",
+    "input-remember-my-email" : "Remember my email",
+    "link-forgot-your-password": "Forgot your password?",
+    "button-sign-in": "Sign in"
+  }
+}
