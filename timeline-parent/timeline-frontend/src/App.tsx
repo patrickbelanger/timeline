@@ -16,34 +16,28 @@
 // under the License.
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { CssBaseline, CssVarsProvider } from "@mui/joy";
-import LoginRegistrationLayout from "./core/components/layouts/login-registration-layout.tsx";
-import LoginForm from "./core/components/forms/login-form.tsx";
-import RegistrationForm from "./core/components/forms/registration-form.tsx";
-
-//const customTheme = extendTheme({ defaultColorScheme: "dark" });
+import { MantineProvider } from "@mantine/core";
+import { theme } from "./core/theme/theme.ts";
 
 function App() {
   return (
-    <CssVarsProvider>
-      <CssBaseline>
-        <BrowserRouter>
-          <Routes>
+    <MantineProvider theme={theme}>
+      <BrowserRouter>
+        <Routes>
+          {/*
             <Route path="/" element={<LoginRegistrationLayout />}>
               <Route index element={<LoginForm />} />
               <Route path="/registration-form" element={<RegistrationForm />} />
             </Route>
-            {/*
-          <Route path="/" element={<BaseLayout />}></Route>
-          <Route path="/login" element={<LoginLayout />}>
-            <Route index element={<LoginForm />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
+            <Route path="/" element={<BaseLayout />}></Route>
+            <Route path="/login" element={<LoginLayout />}>
+              <Route index element={<LoginForm />} />
+            </Route>
           */}
-          </Routes>
-        </BrowserRouter>
-      </CssBaseline>
-    </CssVarsProvider>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </MantineProvider>
   );
 }
 
