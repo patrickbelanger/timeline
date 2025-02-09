@@ -9,5 +9,14 @@
     "input-remember-my-email" : "Mémoriser mon courriel",
     "link-forgot-your-password": "Mot de passe oublié?",
     "button-sign-in": "Connexion"
+  },
+  "error": {
+    "404": {
+      "title" : "Désolé",
+      "message" : "La page que vous essayez d’accéder n’existe pas. Vous avez peut-être mal saisi l’adresse, ou elle a été déplacée vers une autre URL. Si vous pensez qu’il s’agit d’une erreur, veuillez contacter le support."
+    },
+    "button": {
+      "back": "Retour à l'accueil"
+    }
   }
 }

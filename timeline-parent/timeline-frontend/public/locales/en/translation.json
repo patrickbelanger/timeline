@@ -9,5 +9,14 @@
     "input-remember-my-email" : "Remember my email",
     "link-forgot-your-password": "Forgot your password?",
     "button-sign-in": "Sign in"
+  },
+  "error": {
+    "404": {
+      "title" : "Sorry",
+      "message" : "The page you're trying to access doesn't exist. You may have mistyped the address, or it might have been moved to a different URL. If you believe this is an error, please contact support."
+    },
+    "button": {
+      "back": "Back to home"
+    }
   }
 }

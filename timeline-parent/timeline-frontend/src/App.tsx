@@ -18,17 +18,26 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
 import { theme } from "./core/theme/theme.ts";
+import LoginRegistrationLayout from "./core/components/layouts/login-registration-layout.tsx";
+import NotFound from "./core/components/containers/errors/not-found.tsx";
+import "@mantine/core/styles.css";
+import "./App.css";
+
+// other css files are required only if
+// you are using components from the corresponding package
+// import '@mantine/dates/styles.css';
+// import '@mantine/dropzone/styles.css';
+// import '@mantine/code-highlight/styles.css';
 
 function App() {
   return (
-    <MantineProvider theme={theme}>
+    <MantineProvider theme={theme} defaultColorScheme="dark">
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<LoginRegistrationLayout />}>
+            {/* <Route index element={<LoginForm />} /> */}
+          </Route>
           {/*
-            <Route path="/" element={<LoginRegistrationLayout />}>
-              <Route index element={<LoginForm />} />
-              <Route path="/registration-form" element={<RegistrationForm />} />
-            </Route>
             <Route path="/" element={<BaseLayout />}></Route>
             <Route path="/login" element={<LoginLayout />}>
               <Route index element={<LoginForm />} />
