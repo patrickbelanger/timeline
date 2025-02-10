@@ -1,14 +1,22 @@
 {
   "login": {
-    "title-sign-in" : "Connexion",
-    "subtitle-first-visit" : "Première connexion",
-    "link-sign-up": "Inscrivez-vous!",
-    "label-or": "ou",
-    "input-email": "Courriel",
-    "input-password" : "Mot de passe",
-    "input-remember-my-email" : "Mémoriser mon courriel",
-    "link-forgot-your-password": "Mot de passe oublié?",
-    "button-sign-in": "Connexion"
+    "input": {
+      "username": {
+        "label": "Username",
+        "placeholder": "Your email",
+        "error": {
+          "invalid" : "Invalid email",
+          "empty:": "Enter your email"
+        }
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "",
+        "error": {
+          "invalid" : "Invalid email",
+          "empty": "Enter your password"
+        }
+      }
   },
   "error": {
     "404": {

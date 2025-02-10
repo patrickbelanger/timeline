@@ -22,6 +22,7 @@ import LoginRegistrationLayout from "./core/components/layouts/login-registratio
 import NotFound from "./core/components/containers/errors/not-found.tsx";
 import "@mantine/core/styles.css";
 import "./App.css";
+import LoginForm from "./core/components/forms/login-form.tsx";
 
 // other css files are required only if
 // you are using components from the corresponding package
@@ -35,7 +36,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginRegistrationLayout />}>
-            {/* <Route index element={<LoginForm />} /> */}
+            <Route index element={<LoginForm />} />
           </Route>
           {/*
             <Route path="/" element={<BaseLayout />}></Route>
