@@ -13,7 +13,7 @@
         "label": "Password",
         "placeholder": "",
         "error": {
-          "invalid" : "Invalid email",
+          "invalid" : "",
           "empty": "Enter your password"
         }
       }
@@ -21,6 +21,12 @@
     "button": {
       "login": "Login",
       "sign-up" : "Sign up"
+    },
+    "status": {
+      "successful" : "Login successful. Please stand by..."
+    },
+    "error": {
+      "invalid-email-password" : "Invalid email/password combination"
     }
   },
   "error": {

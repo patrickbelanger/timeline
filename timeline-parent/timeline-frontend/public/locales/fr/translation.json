@@ -3,25 +3,36 @@
     "input": {
       "username": {
         "label": "Username",
-        "placeholder": "Your email",
+        "placeholder": "Votre courriel",
         "error": {
-          "invalid" : "Invalid email",
-          "empty:": "Enter your email"
+          "invalid" : "Courriel invalide",
+          "empty:": "Saisir votre courriel"
         }
       },
       "password": {
         "label": "Password",
         "placeholder": "",
         "error": {
-          "invalid" : "Invalid email",
-          "empty": "Enter your password"
+          "invalid" : "",
+          "empty": "Saisir votre mot de passe"
         }
       }
+    },
+    "button": {
+      "login": "Login",
+      "sign-up" : "Sign up"
+    },
+    "status": {
+      "successful" : "Login successful. Please stand by..."
+    },
+    "error": {
+      "invalid-email-password" : "Invalid email/password combination"
+    }
   },
   "error": {
     "404": {
-      "title" : "Désolé",
-      "message" : "La page que vous essayez d’accéder n’existe pas. Vous avez peut-être mal saisi l’adresse, ou elle a été déplacée vers une autre URL. Si vous pensez qu’il s’agit d’une erreur, veuillez contacter le support."
+      "title": "Désolé",
+      "message": "La page que vous essayez d’accéder n’existe pas. Vous avez peut-être mal saisi l’adresse, ou elle a été déplacée vers une autre URL. Si vous pensez qu’il s’agit d’une erreur, veuillez contacter le support."
     },
     "button": {
       "back": "Retour à l'accueil"

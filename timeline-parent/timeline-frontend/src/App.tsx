@@ -17,11 +17,13 @@
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
+import { NavigationProgress } from "@mantine/nprogress";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { theme } from "./core/theme/theme.ts";
 import LoginRegistrationLayout from "./core/components/layouts/login-registration-layout.tsx";
 import NotFound from "./core/components/containers/errors/not-found.tsx";
 import "@mantine/core/styles.css";
-import "./App.css";
+import "@mantine/nprogress/styles.css";
 import LoginForm from "./core/components/forms/login-form.tsx";
 
 // other css files are required only if
@@ -30,23 +32,28 @@ import LoginForm from "./core/components/forms/login-form.tsx";
 // import '@mantine/dropzone/styles.css';
 // import '@mantine/code-highlight/styles.css';
 
+const queryClient = new QueryClient();
+
 function App() {
   return (
     <MantineProvider theme={theme} defaultColorScheme="dark">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LoginRegistrationLayout />}>
-            <Route index element={<LoginForm />} />
-          </Route>
-          {/*
+      <QueryClientProvider client={queryClient}>
+        <NavigationProgress />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<LoginRegistrationLayout />}>
+              <Route index element={<LoginForm />} />
+            </Route>
+            {/*
             <Route path="/" element={<BaseLayout />}></Route>
             <Route path="/login" element={<LoginLayout />}>
               <Route index element={<LoginForm />} />
             </Route>
           */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
     </MantineProvider>
   );
 }
