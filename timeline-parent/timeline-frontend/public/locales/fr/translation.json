@@ -2,15 +2,15 @@
   "login": {
     "input": {
       "username": {
-        "label": "Username",
-        "placeholder": "Votre courriel",
+        "label": "Adresse courriel",
+        "placeholder": "nom@domaine.com",
         "error": {
-          "invalid" : "Courriel invalide",
-          "empty:": "Saisir votre courriel"
+          "invalid" : "Format requis: nom@domaine.com",
+          "empty": "Entrez votre adresse courriel"
         }
       },
       "password": {
-        "label": "Password",
+        "label": "Mot de passe",
         "placeholder": "",
         "error": {
           "invalid" : "",
@@ -19,14 +19,14 @@
       }
     },
     "button": {
-      "login": "Login",
-      "sign-up" : "Sign up"
+      "login": "Connexion",
+      "sign-up" : "Inscription"
     },
     "status": {
-      "successful" : "Login successful. Please stand by..."
+      "successful" : "Connexion réussie. Veuillez patienter..."
     },
     "error": {
-      "invalid-email-password" : "Invalid email/password combination"
+      "invalid-email-password" : "Combination nom d'usager/mot de passe invalide"
     }
   },
   "error": {

@@ -2,11 +2,11 @@
   "login": {
     "input": {
       "username": {
-        "label": "Username",
-        "placeholder": "Your email",
+        "label": "Email address",
+        "placeholder": "name@domain.com",
         "error": {
-          "invalid" : "Invalid email",
-          "empty:": "Enter your email"
+          "invalid" : "Required format: name@domain.com",
+          "empty": "Enter your email"
         }
       },
       "password": {
