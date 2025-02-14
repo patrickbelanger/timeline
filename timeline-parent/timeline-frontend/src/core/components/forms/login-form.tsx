@@ -55,12 +55,6 @@ function LoginForm() {
         <Grid>
           <Grid.Col span="auto" />
           <Grid.Col span={3}>
-            {/* <LoadingOverlay
-              visible={login.isPending}
-              zIndex="1000"
-              overlayProps={{ blur: 2 }}
-              loaderProps={{ color: "orange", type: "bars" }}
-            />*/}
             <Space h="xl" />
             {login.isError && (
               <>
