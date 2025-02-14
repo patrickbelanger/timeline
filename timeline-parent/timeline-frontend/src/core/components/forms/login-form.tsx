@@ -20,9 +20,14 @@ import { useTranslation } from "react-i18next";
 import { LoginRequest } from "../../types/loginRequest.ts";
 import { useLogin } from "../../hooks/useLogin.ts";
 import * as yup from "yup";
+import { useAttempt } from "../../hooks/useAttempt.ts";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
   const { t } = useTranslation();
+  const { hasExceededAttempts, increment } = useAttempt();
+  const navigate = useNavigate();
+
   const login = useLogin();
   const iconAt = <IconAt size={16} />;
   const iconLockPassword = <IconLockPassword size={16} />;
@@ -32,7 +37,7 @@ function LoginForm() {
       .string()
       .required(t("login.input.username.error.empty"))
       .email(t("login.input.username.error.invalid")), // Corrected path
-    password: yup.string().required().length(8),
+    password: yup.string().required().min(8),
   });
 
   const form = useForm({
@@ -47,6 +52,12 @@ function LoginForm() {
   function handleSubmit(values: typeof form.values) {
     form.setSubmitting(true);
     login.mutate(values as LoginRequest);
+    if (login.isError) {
+      increment();
+    }
+    if (hasExceededAttempts) {
+      navigate("/login-difficulties", { replace: true });
+    }
   }
 
   return (

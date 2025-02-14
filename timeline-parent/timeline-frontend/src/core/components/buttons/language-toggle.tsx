@@ -1,18 +1,18 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Dropdown, Menu, MenuItem, MenuButton } from "@mui/joy";
-import LanguageRoundedIcon from "@mui/icons-material/Language";
+import { Menu, Button } from "@mantine/core";
+import { IconLanguage } from "@tabler/icons-react";
 
 const LANGUAGES = [
   { code: "en", label: "English" },
   { code: "fr", label: "Français" },
 ];
 
-function LanguageDropdown() {
+export default function LanguageDropdown() {
   const { i18n } = useTranslation();
-  const [currentLang, setCurrentLang] = React.useState(i18n.language);
+  const [currentLang, setCurrentLang] = useState(i18n.language);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const savedLang = localStorage.getItem("language") || "en";
     i18n.changeLanguage(savedLang);
     setCurrentLang(savedLang);
@@ -25,23 +25,23 @@ function LanguageDropdown() {
   };
 
   return (
-    <Dropdown>
-      <MenuButton
-        startDecorator={<LanguageRoundedIcon />}
-        variant="outlined"
-        size="sm"
-      >
-        {LANGUAGES.find((l) => l.code === currentLang)?.label || "Language"}
-      </MenuButton>
-      <Menu>
+    <Menu>
+      <Menu.Target>
+        <Button
+          variant="outline"
+          size="sm"
+          leftSection={<IconLanguage size={16} />}
+        >
+          {LANGUAGES.find((l) => l.code === currentLang)?.label || "Language"}
+        </Button>
+      </Menu.Target>
+      <Menu.Dropdown>
         {LANGUAGES.map(({ code, label }) => (
-          <MenuItem key={code} onClick={() => changeLanguage(code)}>
+          <Menu.Item key={code} onClick={() => changeLanguage(code)}>
             {label}
-          </MenuItem>
+          </Menu.Item>
         ))}
-      </Menu>
-    </Dropdown>
+      </Menu.Dropdown>
+    </Menu>
   );
 }
-
-export default LanguageDropdown;
