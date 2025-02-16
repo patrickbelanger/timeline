@@ -22,6 +22,7 @@ import { useLogin } from "../../hooks/useLogin.ts";
 import * as yup from "yup";
 import { useAttempt } from "../../hooks/useAttempt.ts";
 import { useNavigate } from "react-router-dom";
+import DebugGrid from "../containers/utils/debug-grid.tsx";
 
 function LoginForm() {
   const { t } = useTranslation();
@@ -62,10 +63,21 @@ function LoginForm() {
 
   return (
     <>
+      <DebugGrid />
       <Box pos="relative">
-        <Grid>
-          <Grid.Col span="auto" />
-          <Grid.Col span={3}>
+        <Grid
+          grow
+          type="container"
+          breakpoints={{
+            xs: "100px",
+            sm: "200px",
+            md: "300px",
+            lg: "400px",
+            xl: "500px",
+          }}
+        >
+          <Grid.Col span={{ md: 4, lg: 4 }} visibleFrom="sm" />
+          <Grid.Col span={{ xs: 12, sm: 10, md: 4, lg: 4 }}>
             <Space h="xl" />
             {login.isError && (
               <>
@@ -121,7 +133,7 @@ function LoginForm() {
               </form>
             </Fieldset>
           </Grid.Col>
-          <Grid.Col span="auto" />
+          <Grid.Col span={{ md: 4, lg: 4 }} visibleFrom="sm" />
         </Grid>
       </Box>
     </>
