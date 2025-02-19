@@ -5,6 +5,11 @@
     { "path": "./tsconfig.node.json"}
   ],
   "compilerOptions": {
-    "types": ["vitest/globals", "@types/jest"]
-  }
+    "types": [
+      "vitest/globals",
+      "@types/jest",
+      "@testing-library/jest-dom"
+    ]
+  },
+  "exclude": ["node_modules"]
 }

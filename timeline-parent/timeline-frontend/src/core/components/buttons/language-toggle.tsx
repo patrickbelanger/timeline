@@ -10,18 +10,20 @@ const LANGUAGES = [
 
 export default function LanguageDropdown() {
   const { i18n } = useTranslation();
-  const [currentLang, setCurrentLang] = useState(i18n.language);
+  const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
 
   useEffect(() => {
-    const savedLang = localStorage.getItem("language") || "en";
-    i18n.changeLanguage(savedLang);
-    setCurrentLang(savedLang);
+    const savedLanguage = localStorage.getItem("language") || "en";
+    i18n.changeLanguage(savedLanguage).then(() => {
+      setCurrentLanguage(savedLanguage);
+    });
   }, [i18n]);
 
   const changeLanguage = (lang: string) => {
-    i18n.changeLanguage(lang);
-    localStorage.setItem("language", lang);
-    setCurrentLang(lang);
+    i18n.changeLanguage(lang).then(() => {
+      localStorage.setItem("language", lang);
+      setCurrentLanguage(lang);
+    });
   };
 
   return (
@@ -32,7 +34,8 @@ export default function LanguageDropdown() {
           size="sm"
           leftSection={<IconLanguage size={16} />}
         >
-          {LANGUAGES.find((l) => l.code === currentLang)?.label || "Language"}
+          {LANGUAGES.find((l) => l.code === currentLanguage)?.label ||
+            "Language"}
         </Button>
       </Menu.Target>
       <Menu.Dropdown>

@@ -26,12 +26,6 @@ import "@mantine/core/styles.css";
 import "@mantine/nprogress/styles.css";
 import LoginForm from "./core/components/forms/login-form.tsx";
 
-// other css files are required only if
-// you are using components from the corresponding package
-// import '@mantine/dates/styles.css';
-// import '@mantine/dropzone/styles.css';
-// import '@mantine/code-highlight/styles.css';
-
 const queryClient = new QueryClient();
 
 function App() {
@@ -44,12 +38,6 @@ function App() {
             <Route path="/" element={<LoginRegistrationLayout />}>
               <Route index element={<LoginForm />} />
             </Route>
-            {/*
-            <Route path="/" element={<BaseLayout />}></Route>
-            <Route path="/login" element={<LoginLayout />}>
-              <Route index element={<LoginForm />} />
-            </Route>
-          */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
