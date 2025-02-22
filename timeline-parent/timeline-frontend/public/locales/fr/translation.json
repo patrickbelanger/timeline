@@ -14,7 +14,8 @@
         "placeholder": "",
         "error": {
           "invalid" : "",
-          "empty": "Saisir votre mot de passe"
+          "empty": "Saisir votre mot de passe",
+          "min": "Mot de passe doit contenir au minimum 8 caractères"
         }
       }
     },

@@ -14,7 +14,8 @@
         "placeholder": "",
         "error": {
           "invalid" : "",
-          "empty": "Enter your password"
+          "empty": "Enter your password",
+          "min": "Password must be at least 8 characters"
         }
       }
     },
