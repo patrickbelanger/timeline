@@ -27,9 +27,9 @@ import DebugGrid from "../containers/utils/debug-grid.tsx";
 function LoginForm() {
   const { t } = useTranslation();
   const { hasExceededAttempts, increment } = useAttempt();
+  const login = useLogin();
   const navigate = useNavigate();
 
-  const login = useLogin();
   const iconAt = <IconAt size={16} />;
   const iconLockPassword = <IconLockPassword size={16} />;
 
