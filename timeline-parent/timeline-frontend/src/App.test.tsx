@@ -15,7 +15,6 @@ describe("<App />", () => {
 
   it("renders", () => {
     const queryClient = new QueryClient();
-
     const { container } = render(
       <I18nextProvider i18n={i18nForTest}>
         <QueryClientProvider client={queryClient}>
@@ -25,7 +24,7 @@ describe("<App />", () => {
         </QueryClientProvider>
       </I18nextProvider>,
     );
-    /* WIP */
+
     expect(container).toBeInTheDocument();
   });
 });

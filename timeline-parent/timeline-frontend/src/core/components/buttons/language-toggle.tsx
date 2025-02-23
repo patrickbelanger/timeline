@@ -19,12 +19,12 @@ export default function LanguageDropdown() {
     });
   }, [i18n]);
 
-  const changeLanguage = (lang: string) => {
+  function changeLanguage(lang: string) {
     i18n.changeLanguage(lang).then(() => {
       localStorage.setItem("language", lang);
       setCurrentLanguage(lang);
     });
-  };
+  }
 
   return (
     <Menu>
@@ -34,8 +34,7 @@ export default function LanguageDropdown() {
           size="sm"
           leftSection={<IconLanguage size={16} />}
         >
-          {LANGUAGES.find((l) => l.code === currentLanguage)?.label ||
-            "Language"}
+          {LANGUAGES.find((l) => l.code === currentLanguage)?.label}
         </Button>
       </Menu.Target>
       <Menu.Dropdown>
