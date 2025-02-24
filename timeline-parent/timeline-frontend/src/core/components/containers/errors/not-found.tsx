@@ -15,7 +15,10 @@ function NotFound() {
   return (
     <Container className={classes.root}>
       <div className={classes.inner}>
-        <NotFoundIllustration className={classes.image} />
+        <NotFoundIllustration
+          className={classes.image}
+          name="404 SVG illustration"
+        />
         <div className={classes.content}>
           <Title className={classes.title}>{t("error.404.title")}</Title>
           <Space h="xs" />
