@@ -1,6 +1,6 @@
 import { beforeEach } from "@vitest/runner";
 import i18nForTest from "../../../i18nForTest.ts";
-import { Matcher, queryByRole, render } from "@testing-library/react";
+import { Matcher, render } from "@testing-library/react";
 import { I18nextProvider } from "react-i18next";
 import { MantineProvider } from "@mantine/core";
 import { theme } from "../../theme/theme.ts";
@@ -12,7 +12,6 @@ import { userEvent } from "@testing-library/user-event";
 describe("<LoginForm />", () => {
   beforeEach(() => {
     i18nForTest.changeLanguage("en");
-    vi.clearAllMocks();
   });
 
   it("renders", () => {
