@@ -10,7 +10,7 @@ describe("<LoginRegistrationLayout />", () => {
     i18next.changeLanguage("en");
   });
 
-  it("renders the LoginRegistrationLayout component", () => {
+  it("renders", () => {
     const { container } = render(
       <I18nextProvider i18n={i18n}>
         <MantineProvider>

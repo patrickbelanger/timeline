@@ -102,6 +102,7 @@ function LoginForm() {
               <form onSubmit={form.onSubmit(handleSubmit)}>
                 <TextInput
                   {...form.getInputProps("username")}
+                  name="username"
                   key={form.key("username")}
                   radius="md"
                   leftSectionPointerEvents="none"
@@ -112,6 +113,7 @@ function LoginForm() {
                 <Space h="xs" />
                 <PasswordInput
                   {...form.getInputProps("password")}
+                  name="password"
                   key={form.key("password")}
                   radius="md"
                   leftSectionPointerEvents="none"

@@ -49,7 +49,7 @@ describe("<NotFound />", () => {
         "La page que vous essayez d’accéder n’existe pas. Vous avez peut-être mal saisi l’adresse, ou elle a été déplacée vers une autre URL. Si vous pensez qu’il s’agit d’une erreur, veuillez contacter le support.",
       ],
     ],
-  ])("assert labels", async (locale: string, labels: Matcher[]) => {
+  ])("assert labels [%s]", async (locale: string, labels: Matcher[]) => {
     await i18nForTest.changeLanguage(locale);
     const { getByText } = render(
       <I18nextProvider i18n={i18nForTest}>
@@ -61,8 +61,9 @@ describe("<NotFound />", () => {
       </I18nextProvider>,
     );
 
-    expect(getByText(labels[0])).toBeInTheDocument();
-    expect(getByText(labels[1])).toBeInTheDocument();
+    labels.forEach((label) => {
+      expect(getByText(label)).toBeInTheDocument();
+    });
   });
 
   it("should return to home page", async () => {

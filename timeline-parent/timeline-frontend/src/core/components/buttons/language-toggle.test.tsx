@@ -27,7 +27,7 @@ describe("<LanguageToggle />", () => {
   it.each([
     ["en", ["English", "Français"]],
     ["fr", ["Français", "English"]],
-  ])("assert labels", async (locale: string, labels: Matcher[]) => {
+  ])("assert labels [%s]", async (locale: string, labels: Matcher[]) => {
     await i18nForTest.changeLanguage(locale);
     const { getByText } = render(
       <I18nextProvider i18n={i18nForTest}>
