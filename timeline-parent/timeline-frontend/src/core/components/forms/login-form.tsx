@@ -21,7 +21,7 @@ import { LoginRequest } from "../../types/loginRequest.ts";
 import { useLogin } from "../../hooks/useLogin.ts";
 import * as yup from "yup";
 import { useAttempt } from "../../hooks/useAttempt.ts";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DebugGrid from "../containers/utils/debug-grid.tsx";
 
 function LoginForm() {
@@ -134,9 +134,11 @@ function LoginForm() {
                   >
                     {t("login.button.login")}
                   </Button>
-                  <Button rightSection={<IconUser size={14} />}>
-                    {t("login.button.sign-up")}
-                  </Button>
+                  <Link to="/sign-up">
+                    <Button rightSection={<IconUser size={14} />}>
+                      {t("login.button.sign-up")}
+                    </Button>
+                  </Link>
                 </Group>
               </form>
             </Fieldset>

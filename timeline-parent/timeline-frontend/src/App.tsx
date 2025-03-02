@@ -25,6 +25,7 @@ import NotFound from "./core/components/containers/errors/not-found.tsx";
 import "@mantine/core/styles.css";
 import "@mantine/nprogress/styles.css";
 import LoginForm from "./core/components/forms/login-form.tsx";
+import SignUpForm from "./core/components/forms/signup-form.tsx";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ function App() {
           <Routes>
             <Route path="/" element={<LoginRegistrationLayout />}>
               <Route index element={<LoginForm />} />
+              <Route path="/sign-up" element={<SignUpForm />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
