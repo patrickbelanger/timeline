@@ -17,12 +17,18 @@
 
 package io.github.patrickbelanger.timeline.controllers;
 
-import io.github.patrickbelanger.timeline.mocks.AuthorDTOMocks;
-import io.github.patrickbelanger.timeline.services.AuthorService;
+import io.github.patrickbelanger.timeline.filters.JWTAuthenticationFilter;
+import io.github.patrickbelanger.timeline.interceptors.JWTTokenInterceptor;
+import io.github.patrickbelanger.timeline.mocks.dtos.AuthorDTOMocks;
+import io.github.patrickbelanger.timeline.services.*;
+import io.github.patrickbelanger.timeline.utils.JWTUtils;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -36,6 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuthorController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class AuthorControllerUnitTest {
 
     @Autowired
@@ -44,13 +51,35 @@ public class AuthorControllerUnitTest {
     @MockitoBean
     private AuthorService authorService;
 
+    @MockitoBean
+    private JWTAuthenticationFilter jwtAuthenticationFilter;
+
+    @Mock
+    private JWTTokenInterceptor jwtTokenInterceptor;
+
+    @MockitoBean
+    private JWTUtils jwtUtils;
+
+    @MockitoBean
+    private RedisBlacklistTokenService redisBlacklistTokenService;
+
+    @MockitoBean
+    private RedisRefreshTokenService redisRefreshTokenService;
+
+    @MockitoBean
+    private UserService userService;
+
+    @MockitoBean
+    private UserManagementService userManagementService;
+
     @Test
     void getAuthors_shouldGetPageAuthors() throws Exception {
         /* Arrange */
         when(authorService.getAuthors(any())).thenReturn(AuthorDTOMocks.getMocks());
         /* Act & Assert */
         mockMvc.perform(get("/api/v1/authors")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(SecurityMockMvcRequestPostProcessors.user("testUser").roles("USER")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].firstName").value("Marc"))
                 .andExpect(jsonPath("$.content[0].email").value("marc-thomas@test.com"))

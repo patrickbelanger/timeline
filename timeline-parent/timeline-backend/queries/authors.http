@@ -1,14 +1,21 @@
 ### GET all authors
 GET {{host}}:{{port}}/api/v1/authors
 Accept: application/json
+Authorization: Bearer {{authToken}}
+
+> {% client.global.set("authToken", response.headers["X-Token"]); %}
 
 ### GET specific author
 GET {{host}}:{{port}}/api/v1/authors/d0deaac3-6ef8-43c2-b53b-45480a406f26
 Accept: application/json
+Authorization: Bearer {{authToken}}
+
+> {% client.global.set("authToken", response.headers["X-Token"]); %}
 
 ### POST create first author
 POST {{host}}:{{port}}/api/v1/authors
 Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
 {
   "firstName" :  "Patrick",
@@ -18,3 +25,5 @@ Content-Type: application/json
   "bio" : "",
   "picture": ""
 }
+
+> {% client.global.set("authToken", response.headers.valueOf("X-Token")); %}

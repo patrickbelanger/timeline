@@ -17,7 +17,10 @@
 
 package io.github.patrickbelanger.timeline.configurations;
 
+import io.github.patrickbelanger.timeline.dtos.UserDTO;
+import io.github.patrickbelanger.timeline.entities.UserEntity;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,6 +28,13 @@ import org.springframework.context.annotation.Configuration;
 public class ModelMapperConfig {
     @Bean
     public ModelMapper modelMapper() {
-        return new ModelMapper();
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.addMappings(new PropertyMap<UserEntity, UserDTO>() {
+            @Override
+            protected void configure() {
+                skip(destination.getPassword());
+            }
+        });
+        return modelMapper;
     }
 }

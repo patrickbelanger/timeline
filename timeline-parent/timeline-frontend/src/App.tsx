@@ -16,37 +16,33 @@
 // under the License.
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { createTheme, ThemeProvider, useMediaQuery } from "@mui/material";
-import { useMemo } from "react";
-import BaseLayout from "./core/components/layouts/BaseLayout.tsx";
-import LoginLayout from "./core/components/layouts/LoginLayout.tsx";
-import LoginForm from "./core/components/forms/LoginForm.tsx";
-import NotFound from "./core/components/pages/NotFound.tsx";
+import { MantineProvider } from "@mantine/core";
+import { NavigationProgress } from "@mantine/nprogress";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { theme } from "./core/theme/theme.ts";
+import LoginRegistrationLayout from "./core/components/layouts/login-registration-layout.tsx";
+import NotFound from "./core/components/containers/errors/not-found.tsx";
+import "@mantine/core/styles.css";
+import "@mantine/nprogress/styles.css";
+import LoginForm from "./core/components/forms/login-form.tsx";
+
+const queryClient = new QueryClient();
 
 function App() {
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: prefersDarkMode ? "dark" : "light",
-        },
-      }),
-    [prefersDarkMode],
-  );
-
   return (
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<BaseLayout />}></Route>
-          <Route path="/login" element={<LoginLayout />}>
-            <Route index element={<LoginForm />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </ThemeProvider>
+    <MantineProvider theme={theme} defaultColorScheme="dark">
+      <QueryClientProvider client={queryClient}>
+        <NavigationProgress />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<LoginRegistrationLayout />}>
+              <Route index element={<LoginForm />} />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </MantineProvider>
   );
 }
 

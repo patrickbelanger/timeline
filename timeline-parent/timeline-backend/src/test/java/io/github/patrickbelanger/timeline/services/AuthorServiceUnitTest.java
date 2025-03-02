@@ -17,7 +17,7 @@
 
 package io.github.patrickbelanger.timeline.services;
 
-import io.github.patrickbelanger.timeline.builders.AuthorDTOBuilder;
+import io.github.patrickbelanger.timeline.builders.dtos.AuthorDTOBuilder;
 import io.github.patrickbelanger.timeline.dtos.AuthorDTO;
 import io.github.patrickbelanger.timeline.entities.AuthorEntity;
 import io.github.patrickbelanger.timeline.repositories.AuthorRepository;
@@ -58,13 +58,14 @@ public class AuthorServiceUnitTest {
         MockitoAnnotations.openMocks(this);
 
         authorEntity = new AuthorEntity();
+        authorEntity.setId(1L);
+        authorEntity.setUuid(UUID.randomUUID().toString());
         authorEntity.setFirstName("Emilie");
         authorEntity.setLastName("Jobin");
         authorEntity.setPseudonym("Emilie Jolie");
         authorEntity.setEmail("emilie-jobin@test.com");
         authorEntity.setBio("Author - Bachelor at UQAM - Interactive Platform");
         authorEntity.setPicture("path/to/emilie-jobin-picture.png");
-        authorEntity.setUuid(UUID.randomUUID().toString());
 
         authorDTO = new AuthorDTOBuilder()
                 .setUuid(authorEntity.getUuid())

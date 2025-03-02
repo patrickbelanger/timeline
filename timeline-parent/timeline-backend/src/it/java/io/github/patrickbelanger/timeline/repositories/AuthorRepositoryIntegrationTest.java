@@ -17,7 +17,7 @@
 
 package io.github.patrickbelanger.timeline.repositories;
 
-import io.github.patrickbelanger.timeline.builders.AuthorDTOBuilder;
+import io.github.patrickbelanger.timeline.builders.dtos.AuthorDTOBuilder;
 import io.github.patrickbelanger.timeline.configurations.ModelMapperConfig;
 import io.github.patrickbelanger.timeline.dtos.AuthorDTO;
 import io.github.patrickbelanger.timeline.entities.AuthorEntity;

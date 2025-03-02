@@ -1,0 +1,42 @@
+{
+  "login": {
+    "input": {
+      "username": {
+        "label": "Adresse courriel",
+        "placeholder": "nom@domaine.com",
+        "error": {
+          "invalid" : "Format requis: nom@domaine.com",
+          "empty": "Entrez votre adresse courriel"
+        }
+      },
+      "password": {
+        "label": "Mot de passe",
+        "placeholder": "",
+        "error": {
+          "invalid" : "",
+          "empty": "Saisir votre mot de passe",
+          "min": "Mot de passe doit contenir au minimum 8 caractères"
+        }
+      }
+    },
+    "button": {
+      "login": "Connexion",
+      "sign-up" : "Inscription"
+    },
+    "status": {
+      "successful" : "Connexion réussie. Veuillez patienter..."
+    },
+    "error": {
+      "invalid-email-password" : "Combination nom d'usager/mot de passe invalide"
+    }
+  },
+  "error": {
+    "404": {
+      "title": "Désolé",
+      "message": "La page que vous essayez d’accéder n’existe pas. Vous avez peut-être mal saisi l’adresse, ou elle a été déplacée vers une autre URL. Si vous pensez qu’il s’agit d’une erreur, veuillez contacter le support."
+    },
+    "button": {
+      "back": "Retour à l'accueil"
+    }
+  }
+}

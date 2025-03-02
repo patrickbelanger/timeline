@@ -15,16 +15,23 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { Outlet } from "react-router-dom";
-import Header from "../Header.tsx";
+package io.github.patrickbelanger.timeline.services;
 
-function BaseLayout() {
-  return (
-    <>
-      <Header />
-      <Outlet />
-    </>
-  );
+import io.github.patrickbelanger.timeline.configurations.RedisCacheConfig;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+
+@Service
+public class RedisRefreshTokenService {
+
+    @CachePut(value = RedisCacheConfig.REFRESH_TOKEN_CACHE_NAME, key = "#email")
+    public String setToken(String token, String email) {
+        return token;
+    }
+
+    @Cacheable(value = RedisCacheConfig.REFRESH_TOKEN_CACHE_NAME, key = "#email")
+    public String getToken(String email) {
+        return null;
+    }
 }
-
-export default BaseLayout;

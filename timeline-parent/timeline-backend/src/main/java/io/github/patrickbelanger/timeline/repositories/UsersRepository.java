@@ -15,18 +15,19 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { Alert } from "@mui/material";
-import Header from "../Header.tsx";
+package io.github.patrickbelanger.timeline.repositories;
 
-function NotFound() {
-  return (
-    <>
-      <Header />
-      <Alert variant="outlined" severity="error">
-        Page not found!
-      </Alert>
-    </>
-  );
+import io.github.patrickbelanger.timeline.entities.UserEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public interface UsersRepository extends JpaRepository<UserEntity, Long> {
+    Page<UserEntity> findAll(Pageable pageable);
+    Optional<UserEntity> findByUsername(String username);
+    UserEntity save(UserEntity user);
 }
-
-export default NotFound;

@@ -15,9 +15,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
-package io.github.patrickbelanger.timeline.mocks;
+package io.github.patrickbelanger.timeline.mocks.dtos;
 
-import io.github.patrickbelanger.timeline.builders.AuthorDTOBuilder;
+import io.github.patrickbelanger.timeline.builders.dtos.AuthorDTOBuilder;
 import io.github.patrickbelanger.timeline.dtos.AuthorDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

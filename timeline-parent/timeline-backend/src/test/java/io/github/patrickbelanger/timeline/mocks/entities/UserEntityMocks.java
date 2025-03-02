@@ -15,14 +15,24 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { Outlet } from "react-router-dom";
+package io.github.patrickbelanger.timeline.mocks.entities;
 
-function LoginLayout() {
-  return (
-    <>
-      <Outlet />
-    </>
-  );
+import io.github.patrickbelanger.timeline.builders.entities.UserEntityBuilder;
+import io.github.patrickbelanger.timeline.entities.UserEntity;
+
+import java.util.UUID;
+
+public class UserEntityMocks {
+    public static UserEntity getMock() {
+        return new UserEntityBuilder()
+            .setId(1L)
+            .setUuid(UUID.randomUUID().toString())
+            .setName("Emilie Jobin")
+            .setUsername("emilie-jobin@test.com")
+            .setPassword("not-so-secured")
+            .setRole("USER")
+            .setRevoked(false)
+            .build();
+
+    }
 }
-
-export default LoginLayout;

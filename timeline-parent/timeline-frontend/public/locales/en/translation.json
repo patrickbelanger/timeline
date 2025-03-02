@@ -1,0 +1,42 @@
+{
+  "login": {
+    "input": {
+      "username": {
+        "label": "Email address",
+        "placeholder": "name@domain.com",
+        "error": {
+          "invalid" : "Required format: name@domain.com",
+          "empty": "Enter your email"
+        }
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "",
+        "error": {
+          "invalid" : "",
+          "empty": "Enter your password",
+          "min": "Password must be at least 8 characters"
+        }
+      }
+    },
+    "button": {
+      "login": "Login",
+      "sign-up" : "Sign up"
+    },
+    "status": {
+      "successful" : "Login successful. Please stand by..."
+    },
+    "error": {
+      "invalid-email-password" : "Invalid email/password combination"
+    }
+  },
+  "error": {
+    "404": {
+      "title" : "Sorry",
+      "message" : "The page you're trying to access doesn't exist. You may have mistyped the address, or it might have been moved to a different URL. If you believe this is an error, please contact support."
+    },
+    "button": {
+      "back": "Back to home"
+    }
+  }
+}

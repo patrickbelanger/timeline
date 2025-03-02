@@ -1,0 +1,34 @@
+### POST create user
+POST {{host}}:{{port}}/api/v1/authenticate/register
+Content-Type: application/json
+
+{
+  "name" : "First User",
+  "username" : "first@test.com",
+  "password" : "Test$12345",
+  "role" : "USER"
+}
+
+### POST login user
+POST {{host}}:{{port}}/api/v1/authenticate/login
+Content-Type: application/json
+
+{
+  "username" : "first@test.com",
+  "password" : "Test$12345"
+}
+
+> {% client.global.set("authToken", response.body.token || response.headers["X-Token"]); %}
+
+### GET is authenticated
+GET {{host}}:{{port}}/api/v1/authenticate
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+> {% client.global.set("authToken", response.headers["X-Token"]); %}
+
+### POST logout
+POST {{host}}:{{port}}/api/v1/authenticate/logout
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
