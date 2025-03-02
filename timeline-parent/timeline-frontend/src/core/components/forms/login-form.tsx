@@ -104,6 +104,7 @@ function LoginForm() {
                   {...form.getInputProps("username")}
                   name="username"
                   key={form.key("username")}
+                  data-testid="username-input"
                   radius="md"
                   leftSectionPointerEvents="none"
                   leftSection={iconAt}
@@ -115,6 +116,7 @@ function LoginForm() {
                   {...form.getInputProps("password")}
                   name="password"
                   key={form.key("password")}
+                  data-testid="password-input"
                   radius="md"
                   leftSectionPointerEvents="none"
                   leftSection={iconLockPassword}
@@ -125,6 +127,7 @@ function LoginForm() {
                 <Group justify="flex-end" mt="md">
                   <Button
                     type="submit"
+                    data-testid="login-btn"
                     loading={login.isPending || login.isSuccess}
                     disabled={login.isPending || login.isSuccess}
                     rightSection={<IconLogin2 size={14} />}
