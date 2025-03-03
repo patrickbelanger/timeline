@@ -5,16 +5,9 @@ import {
   Fieldset,
   Grid,
   Group,
-  PasswordInput,
   Space,
-  TextInput,
 } from "@mantine/core";
-import {
-  IconAt,
-  IconLockPassword,
-  IconLogin2,
-  IconUser,
-} from "@tabler/icons-react";
+import { IconLogin2, IconUser } from "@tabler/icons-react";
 import { useForm, yupResolver } from "@mantine/form";
 import { useTranslation } from "react-i18next";
 import { LoginRequest } from "../../types/loginRequest.ts";
@@ -23,15 +16,14 @@ import * as yup from "yup";
 import { useAttempt } from "../../hooks/useAttempt.ts";
 import { Link, useNavigate } from "react-router-dom";
 import DebugGrid from "../containers/utils/debug-grid.tsx";
+import UsernameInput from "../elements/username-input.tsx";
+import PasswordInput from "../elements/password-input.tsx";
 
 function LoginForm() {
   const { t } = useTranslation();
   const { hasExceededAttempts, increment } = useAttempt();
   const login = useLogin();
   const navigate = useNavigate();
-
-  const iconAt = <IconAt size={16} />;
-  const iconLockPassword = <IconLockPassword size={16} />;
 
   const loginSchema = yup.object().shape({
     username: yup
@@ -100,29 +92,9 @@ function LoginForm() {
             )}
             <Fieldset variant="filled">
               <form onSubmit={form.onSubmit(handleSubmit)}>
-                <TextInput
-                  {...form.getInputProps("username")}
-                  name="username"
-                  key={form.key("username")}
-                  data-testid="username-input"
-                  radius="md"
-                  leftSectionPointerEvents="none"
-                  leftSection={iconAt}
-                  label={t("login.input.username.label")}
-                  placeholder={t("login.input.username.placeholder")}
-                />
+                <UsernameInput form={form} formName="login" />
                 <Space h="xs" />
-                <PasswordInput
-                  {...form.getInputProps("password")}
-                  name="password"
-                  key={form.key("password")}
-                  data-testid="password-input"
-                  radius="md"
-                  leftSectionPointerEvents="none"
-                  leftSection={iconLockPassword}
-                  label={t("login.input.password.label")}
-                  placeholder={t("login.input.password.placeholder")}
-                />
+                <PasswordInput form={form} formName="login" />
                 <Space h="xs" />
                 <Group justify="flex-end" mt="md">
                   <Button
