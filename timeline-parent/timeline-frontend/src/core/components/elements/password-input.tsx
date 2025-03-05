@@ -1,7 +1,7 @@
 import { PasswordInput as MantinePasswordInput } from "@mantine/core";
 import { IconLockPassword } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
-import { InputElementProps } from "./input-props.ts";
+import { InputElementProps } from "./input-element-props.ts";
 
 function PasswordInput<T extends Record<string, any>>({
   form,

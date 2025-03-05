@@ -30,6 +30,26 @@
       "invalid-email-password" : "Invalid email/password combination"
     }
   },
+  "signup": {
+    "steppers": {
+      "step": {
+        "one": {
+          "panel": "Bring your stories and ideas to life with a free Timeline account. Already a member?",
+          "login-cta" : "Log in here",
+          "label" : "Step one",
+          "description": "Create an account"
+        },
+        "two": {
+          "label" : "Step two",
+          "description": "Create an author profile"
+        },
+        "three": {
+          "label" : "Step three",
+          "description": "Create your first project"
+        }
+      }
+    }
+  },
   "error": {
     "404": {
       "title" : "Sorry",

@@ -1,7 +1,7 @@
 import { TextInput } from "@mantine/core";
 import { IconAt } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
-import { InputElementProps } from "./input-props.ts";
+import { InputElementProps } from "./input-element-props.ts";
 
 function UsernameInput<T extends { username: string }>({
   form,

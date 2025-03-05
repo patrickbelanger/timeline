@@ -30,6 +30,24 @@
       "invalid-email-password" : "Combination nom d'usager/mot de passe invalide"
     }
   },
+  "signup": {
+    "steppers": {
+      "step": {
+        "one": {
+          "label" : "Étape un",
+          "description": "Créer un compte"
+        },
+        "two": {
+          "label" : "Étape deux",
+          "description": "Créer un profil d'auteur"
+        },
+        "three": {
+          "label" : "Étape trois",
+          "description": "Créer votre premier projet"
+        }
+      }
+    }
+  },
   "error": {
     "404": {
       "title": "Désolé",

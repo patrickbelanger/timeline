@@ -12,12 +12,12 @@ import { useForm, yupResolver } from "@mantine/form";
 import { useTranslation } from "react-i18next";
 import { LoginRequest } from "../../types/loginRequest.ts";
 import { useLogin } from "../../hooks/useLogin.ts";
-import * as yup from "yup";
 import { useAttempt } from "../../hooks/useAttempt.ts";
 import { Link, useNavigate } from "react-router-dom";
 import DebugGrid from "../containers/utils/debug-grid.tsx";
 import UsernameInput from "../elements/username-input.tsx";
 import PasswordInput from "../elements/password-input.tsx";
+import loginSchema from "./schemas/login-form-schema.ts";
 
 function LoginForm() {
   const { t } = useTranslation();
@@ -25,24 +25,13 @@ function LoginForm() {
   const login = useLogin();
   const navigate = useNavigate();
 
-  const loginSchema = yup.object().shape({
-    username: yup
-      .string()
-      .required(t("login.input.username.error.empty"))
-      .email(t("login.input.username.error.invalid")),
-    password: yup
-      .string()
-      .required()
-      .min(8, t("login.input.password.error.min")),
-  });
-
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
       username: "",
       password: "",
     },
-    validate: yupResolver(loginSchema),
+    validate: yupResolver(loginSchema(t)),
   });
 
   function handleSubmit(values: typeof form.values) {
