@@ -1,4 +1,10 @@
 {
+  "common": {
+    "button": {
+      "back": "Back",
+      "next": "Next"
+    }
+  },
   "login": {
     "input": {
       "username": {
@@ -46,6 +52,35 @@
         "three": {
           "label" : "Step three",
           "description": "Create your first project"
+        }
+      }
+    },
+    "input": {
+      "username": {
+        "label": "Email address",
+        "placeholder": "name@domain.com",
+        "error": {
+          "invalid": "Required format: name@domain.com",
+          "empty": "Enter your email"
+        }
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "",
+        "error": {
+          "invalid": "",
+          "empty": "Enter your password",
+          "min": "Password must be at least 8 characters"
+        }
+      },
+      "confirmPassword": {
+        "label": "Confirm Password",
+        "placeholder": "",
+        "error": {
+          "invalid": "",
+          "empty": "Enter your password",
+          "match": "Passwords must match",
+          "min": "Password must be at least 8 characters"
         }
       }
     }

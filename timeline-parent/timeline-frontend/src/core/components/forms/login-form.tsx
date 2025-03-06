@@ -10,7 +10,6 @@ import {
 import { IconLogin2, IconUser } from "@tabler/icons-react";
 import { useForm, yupResolver } from "@mantine/form";
 import { useTranslation } from "react-i18next";
-import { LoginRequest } from "../../types/loginRequest.ts";
 import { useLogin } from "../../hooks/useLogin.ts";
 import { useAttempt } from "../../hooks/useAttempt.ts";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,6 +17,7 @@ import DebugGrid from "../containers/utils/debug-grid.tsx";
 import UsernameInput from "../elements/username-input.tsx";
 import PasswordInput from "../elements/password-input.tsx";
 import loginSchema from "./schemas/login-form-schema.ts";
+import { LoginRequest } from "../../types/login-request.ts";
 
 function LoginForm() {
   const { t } = useTranslation();
