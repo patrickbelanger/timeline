@@ -37,9 +37,15 @@
     }
   },
   "signup": {
+    "error": {
+      "alreadyExists": "Vous avez déjà un compte.",
+      "internal": "Une erreur inattendue s’est produite. Veuillez réessayer..."
+    },
     "steppers": {
       "step": {
         "one": {
+          "panel": "Donnez vie à vos histoires et vos idées avec un compte Timeline gratuit. Déjà membre?",
+          "login-cta" : "Connectez-vous ici",
           "label" : "Étape un",
           "description": "Créer un compte"
         },

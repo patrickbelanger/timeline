@@ -1,16 +1,16 @@
 import { beforeEach } from "@vitest/runner";
-import i18nForTest from "../../../i18nForTest.ts";
+import i18nForTest from "../../../../i18nForTest.ts";
 import { Matcher, render, screen, waitFor } from "@testing-library/react";
 import { I18nextProvider } from "react-i18next";
 import { MantineProvider } from "@mantine/core";
-import { theme } from "../../theme/theme.ts";
+import { theme } from "../../../theme/theme.ts";
 import { MemoryRouter } from "react-router-dom";
 import LoginForm from "./login-form.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { userEvent } from "@testing-library/user-event";
 import { Mock } from "vitest";
-import { useLogin } from "../../hooks/useLogin.ts";
-import { useAttempt } from "../../hooks/useAttempt.ts";
+import { useLogin } from "../../../hooks/useLogin.ts";
+import { useAttempt } from "../../../hooks/useAttempt.ts";
 
 vi.mock("../../hooks/useLogin");
 vi.mock("../../hooks/useAttempt");

@@ -1,22 +1,34 @@
 import axios from "axios";
-import { SignUpRequest } from "../types/sign-up-request.ts";
 import { useMutation } from "@tanstack/react-query";
+import { AccountCreationRequest } from "../types/requests/account-creation-request.ts";
+import { AuthorCreationRequest } from "../types/requests/author-creation-request.ts";
 
-async function signUp(signUpRequest: SignUpRequest) {
+async function accountCreation(accountCreationRequest: AccountCreationRequest) {
   return await axios.post(
     "http://localhost:8081/api/v1/authenticate/register",
-    signUpRequest,
+    accountCreationRequest,
   );
 }
 
-export function useSignUp() {
+async function authorCreation(authorCreationRequest: AuthorCreationRequest) {
+  return await axios.post(
+    "http://localhost:8081/api/v1/authors",
+    authorCreationRequest,
+  );
+}
+
+function useSignUp<T>(mutationFn: (data: T) => Promise<any>) {
   return useMutation({
-    mutationFn: signUp,
-    onSuccess: () => {
-      return true;
-    },
-    onError: (error: any) => {
-      return error.response.status;
-    },
+    mutationFn,
+    onSuccess: () => true,
+    onError: (error: any) => error.response?.status,
   });
+}
+
+export function useAccountCreation() {
+  return useSignUp<AccountCreationRequest>(accountCreation);
+}
+
+export function useAuthorCreation() {
+  return useSignUp<AuthorCreationRequest>(authorCreation);
 }

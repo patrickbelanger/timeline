@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { LoginRequest } from "../types/login-request.ts";
+import { LoginRequest } from "../types/requests/login-request.ts";
 
 async function login(loginRequest: LoginRequest) {
   return await axios.post(

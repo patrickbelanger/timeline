@@ -37,6 +37,10 @@
     }
   },
   "signup": {
+    "error": {
+      "alreadyExists": "You already have an account.",
+      "internal": "An unexpected error has occured. Please try again..."
+    },
     "steppers": {
       "step": {
         "one": {
@@ -81,6 +85,24 @@
           "empty": "Enter your password",
           "match": "Passwords must match",
           "min": "Password must be at least 8 characters"
+        }
+      },
+      "firstname": {
+        "label": "First Name",
+        "placeholder": "",
+        "error": {
+          "invalid": "",
+          "empty": "Enter your first name",
+          "min": "First name must be at least 2 characters"
+        }
+      },
+      "lastname": {
+        "label": "Last Name",
+        "placeholder": "",
+        "error": {
+          "invalid": "",
+          "empty": "Enter your last name",
+          "min": "Last name must be at least 2 characters"
         }
       }
     }

@@ -1,6 +1,6 @@
 import { LoginRequest } from "./login-request.ts";
 
-export type SignUpRequest = LoginRequest & {
+export type AccountCreationRequest = LoginRequest & {
   confirmPassword: string;
   role: string;
 };
