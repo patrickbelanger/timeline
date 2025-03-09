@@ -17,11 +17,11 @@ describe("<App />", () => {
     const queryClient = new QueryClient();
     const { container } = render(
       <I18nextProvider i18n={i18nForTest}>
-        <QueryClientProvider client={queryClient}>
-          <MantineProvider theme={theme}>
+        <MantineProvider theme={theme}>
+          <QueryClientProvider client={queryClient}>
             <App />
-          </MantineProvider>
-        </QueryClientProvider>
+          </QueryClientProvider>
+        </MantineProvider>
       </I18nextProvider>,
     );
 
