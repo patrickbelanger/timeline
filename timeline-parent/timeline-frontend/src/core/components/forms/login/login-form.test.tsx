@@ -9,11 +9,11 @@ import LoginForm from "./login-form.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { userEvent } from "@testing-library/user-event";
 import { Mock } from "vitest";
-import { useLogin } from "../../../hooks/useLogin.ts";
 import { useAttempt } from "../../../hooks/useAttempt.ts";
+import { useLogin } from "../../../hooks/useLogin.ts";
 
-vi.mock("../../hooks/useLogin");
-vi.mock("../../hooks/useAttempt");
+vi.mock("../../../hooks/useLogin");
+vi.mock("../../../hooks/useAttempt");
 
 const mockMutate = vi.fn();
 const mockIncrement = vi.fn();
