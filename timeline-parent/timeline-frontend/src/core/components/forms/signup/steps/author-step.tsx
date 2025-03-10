@@ -1,4 +1,4 @@
-import { Alert, Button, Group, Space, Text } from "@mantine/core";
+import { Alert, Button, Group, Popover, Space, Text } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 import { useForm, yupResolver } from "@mantine/form";
 import { IconLogin2 } from "@tabler/icons-react";
@@ -8,8 +8,11 @@ import { AuthorCreationRequest } from "../../../../types/requests/author-creatio
 import FirstnameInput from "../../../elements/firstname-input.tsx";
 import LastnameInput from "../../../elements/lastname-input.tsx";
 import { authorCreationSchema } from "./author-step-schemas.ts";
+import PseudonymInput from "../../../elements/pseudonym-input.tsx";
+import { useDisclosure } from "@mantine/hooks";
 
 function AuthorStep({ nextStep, prevStep }: StepProps) {
+  const [opened, { close, open }] = useDisclosure(false);
   const { t } = useTranslation();
   const form = useForm({
     mode: "uncontrolled",
@@ -52,6 +55,29 @@ function AuthorStep({ nextStep, prevStep }: StepProps) {
         <Space h="xs" />
         <LastnameInput form={form} formName="signup" />
         <Space h="xs" />
+        <Popover
+          width={200}
+          position="bottom"
+          withArrow
+          shadow="md"
+          opened={opened}
+        >
+          <Popover.Target>
+            <PseudonymInput
+              form={form}
+              formName="signup"
+              onMouseEnter={open}
+              onMouseLeave={close}
+            />
+          </Popover.Target>
+          <Popover.Dropdown style={{ pointerEvents: "none" }}>
+            <Text size="sm">
+              A pseudonym, also known as a pen name, is a fake name used by an
+              author who does not wish to be published under their real name.
+            </Text>
+          </Popover.Dropdown>
+        </Popover>
+
         <Group justify="center" mt="xl">
           <Button variant="default" onClick={prevStep} disabled={true}>
             {t("common.button.back")}

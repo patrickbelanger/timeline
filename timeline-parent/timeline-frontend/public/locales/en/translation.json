@@ -105,6 +105,15 @@
           "empty": "Enter your last name",
           "min": "Last name must be at least 2 characters"
         }
+      },
+      "pseudonym": {
+        "label": "Pseudonym",
+        "placeholder": "",
+        "error": {
+          "invalid": "",
+          "empty": "Enter your pseudonym",
+          "min": "Pseudonym must be at least 2 characters"
+        }
       }
     }
   },

@@ -1,5 +1,5 @@
 import { TextInput } from "@mantine/core";
-import { IconAt } from "@tabler/icons-react";
+import { IconUser } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
 import { InputElementProps } from "./input-element-props.ts";
 
@@ -8,7 +8,7 @@ function FirstnameInput<T extends { firstName: string }>({
   formName = "signup",
 }: InputElementProps<T>) {
   const { t } = useTranslation();
-  const iconAt = <IconAt size={16} />;
+  const iconAt = <IconUser size={16} />;
 
   return (
     <TextInput
