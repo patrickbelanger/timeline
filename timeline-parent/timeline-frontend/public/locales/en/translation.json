@@ -50,6 +50,7 @@
           "description": "Create an account"
         },
         "two": {
+          "panel": "Step into the spotlight! Create your author profile and share your stories with the world. Fill in your details.",
           "label" : "Step two",
           "description": "Create an author profile"
         },

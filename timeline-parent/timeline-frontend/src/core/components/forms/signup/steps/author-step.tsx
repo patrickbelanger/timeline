@@ -1,5 +1,4 @@
 import { Alert, Button, Group, Space, Text } from "@mantine/core";
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useForm, yupResolver } from "@mantine/form";
 import { IconLogin2 } from "@tabler/icons-react";
@@ -28,12 +27,11 @@ function AuthorStep({ nextStep, prevStep }: StepProps) {
 
   function handleSubmit(values: typeof form.values) {
     form.setSubmitting(true);
-    authorCreation.mutate(values as AuthorCreationRequest);
-    if (authorCreation.isSuccess) {
-      nextStep();
-    }
-    console.log(authorCreation.error);
-    console.log(authorCreation.data);
+    authorCreation.mutate(values as AuthorCreationRequest, {
+      onSuccess: () => {
+        nextStep();
+      },
+    });
   }
 
   return (
@@ -48,10 +46,7 @@ function AuthorStep({ nextStep, prevStep }: StepProps) {
       )}
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Space h="xs" />
-        <Text size="sm">
-          {t("signup.steppers.step.one.panel")}{" "}
-          <Link to="/">{t("signup.steppers.step.one.login-cta")}</Link>
-        </Text>
+        <Text size="sm">{t("signup.steppers.step.two.panel")}</Text>
         <Space h="xs" />
         <FirstnameInput form={form} formName="signup" />
         <Space h="xs" />

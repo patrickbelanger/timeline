@@ -3,11 +3,16 @@ import { Box, Fieldset, Grid, Space, Stepper } from "@mantine/core";
 import { useTranslation } from "react-i18next";
 import { getStep } from "./strategy/signup-strategy.tsx";
 import { useStepperNavigation } from "../../hooks/useStepperNavigation.ts";
+import { useEffect } from "react";
 
 function SignUpForm() {
   const { t } = useTranslation();
   const steps = getStep(t);
-  const { active, setActive, nextStep, prevStep } = useStepperNavigation(steps);
+  const { active, nextStep, prevStep } = useStepperNavigation(steps);
+
+  useEffect(() => {
+    console.log("🎯 Active state changed:", active);
+  }, [active]);
 
   return (
     <>
@@ -28,11 +33,7 @@ function SignUpForm() {
           <Grid.Col span={{ xs: 12, sm: 10, md: 4, lg: 6 }}>
             <Space h="xl" />
             <Fieldset variant="filled">
-              <Stepper
-                active={active}
-                onStepClick={setActive}
-                allowNextStepsSelect={false}
-              >
+              <Stepper active={active} allowNextStepsSelect={false}>
                 {steps.map((step, index) => (
                   <Stepper.Step
                     key={index}

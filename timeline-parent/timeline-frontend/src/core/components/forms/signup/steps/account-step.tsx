@@ -26,12 +26,12 @@ function AccountStep({ nextStep, prevStep }: StepProps) {
 
   function handleSubmit(values: typeof form.values) {
     form.setSubmitting(true);
-    accountCreation.mutate(values as AccountCreationRequest);
-    if (accountCreation.isSuccess) {
-      nextStep();
-    }
-    console.log(accountCreation.error);
-    console.log(accountCreation.data);
+    accountCreation.mutate(values as AccountCreationRequest, {
+      onSuccess: () => {
+        console.log("✅ Mutation success, moving to next step");
+        nextStep();
+      },
+    });
   }
 
   return (
@@ -70,7 +70,11 @@ function AccountStep({ nextStep, prevStep }: StepProps) {
             type="submit"
             data-testid="next-btn"
             loading={accountCreation.isPending || accountCreation.isSuccess}
-            disabled={accountCreation.isPending || accountCreation.isSuccess}
+            disabled={
+              accountCreation.isPending ||
+              accountCreation.isSuccess ||
+              accountCreation.error?.response?.status === 409
+            }
             rightSection={<IconLogin2 size={14} />}
           >
             {t("common.button.next")}

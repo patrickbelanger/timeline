@@ -56,6 +56,9 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<UserDTO>> register(@RequestBody UserDTO userDTO) {
+        if (userDTO.getRole() == null) {
+            userDTO.setRole("USER");
+        }
         return new ResponseEntity<>(userManagementService.register(userDTO), HttpStatus.OK);
     }
 }

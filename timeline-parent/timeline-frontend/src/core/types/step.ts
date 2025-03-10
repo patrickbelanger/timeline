@@ -4,7 +4,7 @@ export interface Step {
   label: string;
   description: string;
   component: (props: {
+    prevStep: () => Promise<void>;
     nextStep: () => void;
-    prevStep: () => void;
   }) => React.ReactNode;
 }
