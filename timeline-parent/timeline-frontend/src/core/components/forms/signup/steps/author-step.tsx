@@ -10,6 +10,8 @@ import LastnameInput from "../../../elements/lastname-input.tsx";
 import { authorCreationSchema } from "./author-step-schemas.ts";
 import PseudonymInput from "../../../elements/pseudonym-input.tsx";
 import { useDisclosure } from "@mantine/hooks";
+import EmailInput from "../../../elements/email-input.tsx";
+import BioTextarea from "../../../elements/bio-textarea.tsx";
 
 function AuthorStep({ nextStep, prevStep }: StepProps) {
   const [opened, { close, open }] = useDisclosure(false);
@@ -55,6 +57,10 @@ function AuthorStep({ nextStep, prevStep }: StepProps) {
         <Space h="xs" />
         <LastnameInput form={form} formName="signup" />
         <Space h="xs" />
+        <EmailInput form={form} formName="signup" />
+        <Space h="xs" />
+        <BioTextarea form={form} formName="signup" />
+
         <Popover
           width={200}
           position="bottom"
