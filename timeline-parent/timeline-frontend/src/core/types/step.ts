@@ -5,6 +5,6 @@ export interface Step {
   description: string;
   component: (props: {
     prevStep: () => Promise<void>;
-    nextStep: () => void;
+    nextStep: () => {};
   }) => React.ReactNode;
 }

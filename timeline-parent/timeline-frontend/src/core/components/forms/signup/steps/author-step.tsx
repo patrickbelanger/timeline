@@ -19,6 +19,7 @@ function AuthorStep({ nextStep, prevStep }: StepProps) {
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
+      accountUuid: "",
       firstName: "",
       lastName: "",
       pseudonym: "",
@@ -34,6 +35,7 @@ function AuthorStep({ nextStep, prevStep }: StepProps) {
     form.setSubmitting(true);
     authorCreation.mutate(values as AuthorCreationRequest, {
       onSuccess: () => {
+        console.log("✅ Mutation success, moving to next step");
         nextStep();
       },
     });
@@ -77,10 +79,7 @@ function AuthorStep({ nextStep, prevStep }: StepProps) {
             />
           </Popover.Target>
           <Popover.Dropdown style={{ pointerEvents: "none" }}>
-            <Text size="sm">
-              A pseudonym, also known as a pen name, is a fake name used by an
-              author who does not wish to be published under their real name.
-            </Text>
+            <Text size="sm">{t("signup.input.pseudonym.popover")}</Text>
           </Popover.Dropdown>
         </Popover>
 

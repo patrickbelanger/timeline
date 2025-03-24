@@ -2,13 +2,17 @@ import * as yup from "yup";
 
 export function authorCreationSchema(t: any) {
   return yup.object().shape({
-    firstname: yup
+    firstName: yup
       .string()
       .required()
       .min(2, t("signup.input.firstname.error.min")),
-    lastname: yup
+    lastName: yup
       .string()
       .required()
-      .min(2, t("signup.input.firstname.error.min")),
+      .min(2, t("signup.input.lastname.error.min")),
+    email: yup
+      .string()
+      .required(t("signup.input.email.error.empty"))
+      .email(t("signup.input.email.error.invalid")),
   });
 }

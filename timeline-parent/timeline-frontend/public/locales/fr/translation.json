@@ -61,6 +61,14 @@
       }
     },
     "input": {
+      "email": {
+        "label": "Adresse courriel",
+        "placeholder": "nom@domaine.com",
+        "error": {
+          "invalid" : "Format requis: nom@domaine.com",
+          "empty": "Entrez votre adresse courriel"
+        }
+      },
       "username": {
         "label": "Adresse courriel",
         "placeholder": "nom@domaine.com",
@@ -105,6 +113,22 @@
           "empty": "Saisir votre nom",
           "min": "Nom doit contenir au minimum 2 caractères"
         }
+      },
+      "pseudonym": {
+        "label": "Pseudonyme",
+        "placeholder": "",
+        "popover": "Un pseudonyme, également appelé nom de plume, est un faux nom utilisé par un auteur qui ne souhaite pas être publié sous son vrai nom.",
+        "error": {
+          "invalid": "",
+          "empty": "Enter your pseudonym",
+          "min": "Pseudonym must be at least 2 characters"
+        }
+      }
+    },
+    "textarea": {
+      "bio": {
+        "label": "Biographie",
+        "placeholder": ""
       }
     }
   },

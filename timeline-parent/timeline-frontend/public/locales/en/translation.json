@@ -61,6 +61,14 @@
       }
     },
     "input": {
+      "email": {
+        "label": "Email address",
+        "placeholder": "name@domain.com",
+        "error": {
+          "invalid": "Required format: name@domain.com",
+          "empty": "Enter your email"
+        }
+      },
       "username": {
         "label": "Email address",
         "placeholder": "name@domain.com",
@@ -109,11 +117,18 @@
       "pseudonym": {
         "label": "Pseudonym",
         "placeholder": "",
+        "popover": "A pseudonym, also known as a pen name, is a fake name used by an author who does not wish to be published under their real name.",
         "error": {
           "invalid": "",
           "empty": "Enter your pseudonym",
           "min": "Pseudonym must be at least 2 characters"
         }
+      }
+    },
+    "textarea": {
+      "bio": {
+        "label": "Biography",
+        "placeholder": ""
       }
     }
   },
