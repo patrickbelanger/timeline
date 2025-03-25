@@ -13,6 +13,7 @@ function EmailInput<T extends { email: string }>({
   return (
     <TextInput
       {...form.getInputProps("email")}
+      value={form.values.email || ""}
       name="email"
       key={form.key("email")}
       data-testid="email-input"

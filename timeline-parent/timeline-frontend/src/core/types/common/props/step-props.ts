@@ -1,4 +1,4 @@
 export interface StepProps {
-  nextStep: () => {};
-  prevStep: () => {};
+  prevStep: () => Promise<void>;
+  nextStep: () => void;
 }

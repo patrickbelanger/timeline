@@ -10,6 +10,8 @@ import { useAccountCreation } from "../../../../hooks/useSignUp.ts";
 import { StepProps } from "../../../../types/common/props/step-props.ts";
 import { AccountCreationRequest } from "../../../../types/requests/account-creation-request.ts";
 import { accountCreationSchema } from "./account-step-schemas.ts";
+import { nprogress } from "@mantine/nprogress";
+import { useEffect } from "react";
 
 function AccountStep({ nextStep, prevStep }: StepProps) {
   const { t } = useTranslation();
@@ -29,10 +31,20 @@ function AccountStep({ nextStep, prevStep }: StepProps) {
     accountCreation.mutate(values as AccountCreationRequest, {
       onSuccess: () => {
         console.log("✅ Mutation success, moving to next step");
+        nprogress.complete();
         nextStep();
+      },
+      onError: () => {
+        nprogress.complete();
       },
     });
   }
+
+  useEffect(() => {
+    if (accountCreation.isPending) {
+      nprogress.start();
+    }
+  });
 
   return (
     <>

@@ -12,18 +12,23 @@ import PseudonymInput from "../../../elements/pseudonym-input.tsx";
 import { useDisclosure } from "@mantine/hooks";
 import EmailInput from "../../../elements/email-input.tsx";
 import BioTextarea from "../../../elements/bio-textarea.tsx";
+import { nprogress } from "@mantine/nprogress";
+import { useEffect } from "react";
+import { useSignUpContext } from "../../../../hooks/useSignUpContext.ts";
 
 function AuthorStep({ nextStep, prevStep }: StepProps) {
   const [opened, { close, open }] = useDisclosure(false);
   const { t } = useTranslation();
+  const signUpContext = useSignUpContext();
+
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
-      accountUuid: "",
+      accountUuid: signUpContext.uuid,
       firstName: "",
       lastName: "",
       pseudonym: "",
-      email: "",
+      email: signUpContext.email,
       bio: "",
       picture: "",
     },
@@ -36,10 +41,20 @@ function AuthorStep({ nextStep, prevStep }: StepProps) {
     authorCreation.mutate(values as AuthorCreationRequest, {
       onSuccess: () => {
         console.log("✅ Mutation success, moving to next step");
+        nprogress.complete();
         nextStep();
+      },
+      onError: () => {
+        nprogress.complete();
       },
     });
   }
+
+  useEffect(() => {
+    if (authorCreation.isPending) {
+      nprogress.start();
+    }
+  });
 
   return (
     <>

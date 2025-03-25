@@ -22,10 +22,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { theme } from "./core/theme/theme.ts";
 import LoginRegistrationLayout from "./core/components/layouts/login-registration-layout.tsx";
 import NotFound from "./core/components/containers/errors/not-found.tsx";
-import "@mantine/core/styles.css";
-import "@mantine/nprogress/styles.css";
 import LoginForm from "./core/components/forms/login/login-form.tsx";
 import SignUpForm from "./core/components/forms/signup-form.tsx";
+import "@mantine/core/styles.css";
+import "@mantine/nprogress/styles.css";
+import { SignUpProvider } from "./core/contexts/sign-up-context.tsx";
 
 const queryClient = new QueryClient();
 
@@ -33,16 +34,18 @@ function App() {
   return (
     <MantineProvider theme={theme} defaultColorScheme="dark">
       <QueryClientProvider client={queryClient}>
-        <NavigationProgress />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<LoginRegistrationLayout />}>
-              <Route index element={<LoginForm />} />
-              <Route path="/sign-up" element={<SignUpForm />} />
-            </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+        <SignUpProvider>
+          <NavigationProgress />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<LoginRegistrationLayout />}>
+                <Route index element={<LoginForm />} />
+                <Route path="/sign-up" element={<SignUpForm />} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </SignUpProvider>
       </QueryClientProvider>
     </MantineProvider>
   );
